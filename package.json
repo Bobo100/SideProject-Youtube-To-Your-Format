@@ -1,0 +1,34 @@
+{
+  "name": "youtube-to-mp3",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.example.youtubetomp3",
+    "files": [
+      "main.js",
+      "index.html",
+      "preload.js",
+      "renderer.js",
+      "resources/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "dependencies": {
+    "electron": "^13.1.7"
+  },
+  "devDependencies": {
+    "electron-builder": "^22.11.7"
+  }
+}
