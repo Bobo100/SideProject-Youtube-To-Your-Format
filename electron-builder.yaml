@@ -1,0 +1,6 @@
+appId: "com.example.youtubetoyoutformat"
+productName: "Electron Next.JS"
+copyright: "Copyright (c) 2024 Bobo"
+win:
+  target: ["dir", "portable", "zip"]
+  icon: "resources/icon.ico"

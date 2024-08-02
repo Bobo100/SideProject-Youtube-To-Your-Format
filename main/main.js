@@ -1,7 +1,11 @@
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog, protocol } = require("electron");
 const path = require("path");
 const { exec } = require("child_process");
 const fs = require("fs");
+
+protocol.registerSchemesAsPrivileged([
+  { scheme: "app", privileges: { secure: true, standard: true } },
+]);
 
 const createWindow = async () => {
   const win = new BrowserWindow({
@@ -13,11 +17,33 @@ const createWindow = async () => {
   });
 
   if (app.isPackaged) {
-    const serve = (await import("electron-serve")).default;
-    const appServe = serve({ directory: path.join(__dirname, "../out") });
+    // npx http-server ./out -p 3000
+    // 改成先執行http-server ./out -p 3000 然後再loadURL
+    const serverProcess = exec(
+      "npx http-server ./out -p 3001",
+      (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error starting http-server: ${error.message}`);
+          return;
+        }
+        if (stderr) {
+          console.error(`http-server stderr: ${stderr}`);
+          return;
+        }
+        console.log(`http-server stdout: ${stdout}`);
+      }
+    );
+    win.loadURL("http://localhost:3001");
+    win.webContents.openDevTools(); // 在打包环境中打开开发者工具
 
-    await appServe(win);
-    win.loadURL("app://-");
+    win.on("closed", () => {
+      win = null;
+      // Terminate the server process when the window is closed
+      if (serverProcess) {
+        serverProcess.kill();
+        serverProcess = null;
+      }
+    });
   } else {
     win.loadURL("http://localhost:3000");
     win.webContents.openDevTools();
@@ -27,9 +53,7 @@ const createWindow = async () => {
   }
 };
 
-app.on("ready", () => {
-  createWindow();
-});
+app.whenReady().then(createWindow);
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
@@ -55,16 +79,17 @@ ipcMain.on("download-video", (event, youtubeUrl, outputPath) => {
     app.getAppPath(),
     "resources",
     "yt-dlp",
-    process.platform === "win32" ? "yt-dlp.exe" : "yt-dlp"
+    "yt-dlp.exe"
   );
   const ffmpegPath = path.join(
     app.getAppPath(),
     "resources",
     "ffmpeg",
-    process.platform === "win32" ? "ffmpeg.exe" : "ffmpeg"
+    "ffmpeg.exe"
   );
 
   const defaultPath = path.join(app.getPath("downloads"), "youtube-downloads");
+  outputPath = outputPath || defaultPath;
 
   // If no output path is provided, use the default path
   outputPath = outputPath || defaultPath;
@@ -73,7 +98,7 @@ ipcMain.on("download-video", (event, youtubeUrl, outputPath) => {
   if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath, { recursive: true });
   }
-  
+
   // Construct command with appropriate escaping
   const command = `"${ytDlpPath}" --ffmpeg-location "${ffmpegPath}" --output "${path.join(
     outputPath,

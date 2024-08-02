@@ -2,11 +2,15 @@
   "name": "youtube-to-your-format",
   "version": "1.0.0",
   "main": "main/main.js",
+  "description": "youtube-to-your-format",
+  "author": "Bobo",
   "scripts": {
     "dev": "concurrently -n \"NEXT,ELECTRON\" -c \"yellow,blue\" --kill-others \"next dev\" \"electron .\"",
     "build": "next build && electron-builder",
+    "build_next": "next build",
+    "build_electron": "electron-builder",
     "postinstall": "node scripts/download-ffmpeg.js",
-    "start": "next start",
+    "start": "serve -s out",
     "lint": "next lint"
   },
   "build": {
@@ -17,10 +21,22 @@
       "public/**/*",
       "resources/**/*"
     ],
-    "win": {
-      "signing": {
-        "nosym": true
+    "extraResources": [
+      {
+        "from": "resources/",
+        "to": "resources/",
+        "filter": [
+          "**/*"
+        ]
       }
+    ],
+    "asarUnpack": [
+      "resources/yt-dlp/yt-dlp.exe",
+      "resources/ffmpeg/ffmpeg.exe"
+    ],
+    "win": {
+      "target": "nsis",
+      "signAndEditExecutable": false
     }
   },
   "dependencies": {
@@ -38,14 +54,16 @@
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
+    "autoprefixer": "^10.4.14",
     "concurrently": "^8.2.2",
     "electron": "^31.3.1",
     "electron-builder": "^24.13.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
+    "http-server": "^14.1.1",
     "postcss": "^8.4.21",
     "sass": "^1.77.8",
-    "tailwindcss": "^3.4.1",
-    "autoprefixer": "^10.4.14"
+    "serve": "^14.2.3",
+    "tailwindcss": "^3.4.1"
   }
 }
