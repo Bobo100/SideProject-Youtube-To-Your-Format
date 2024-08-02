@@ -1,0 +1,6 @@
+// 寫一個通用的 breapoint樣式 可以方便引用 並且輸入對應的寬度
+@mixin rwd-custom($width) {
+    @media screen and (max-width: $width) {
+        @content;
+    }
+}

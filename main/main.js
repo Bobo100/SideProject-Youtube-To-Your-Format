@@ -9,9 +9,6 @@ const createWindow = async () => {
     height: 1080,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
-      contextIsolation: true,
-      enableRemoteModule: false,
-      nodeIntegration: false,
     },
   });
 
@@ -55,10 +52,11 @@ ipcMain.handle("select-output-folder", async () => {
 
 ipcMain.on("download-video", (event, youtubeUrl, outputPath) => {
   const ytDlpPath = path.join(
-    __dirname,
+    app.getAppPath(),
     "resources",
     process.platform === "win32" ? "yt-dlp.exe" : "yt-dlp"
   );
+
   const defaultPath = path.join(app.getPath("downloads"), "youtube-downloads");
 
   // If no output path is provided, use the default path

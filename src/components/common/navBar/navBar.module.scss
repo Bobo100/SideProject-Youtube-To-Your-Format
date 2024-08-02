@@ -1,0 +1,103 @@
+@import "@/styles/variables.module.scss";
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: $navbar-height;
+    z-index: 20;
+    transition: top 0.3s;
+
+    display: flex;
+    justify-content: center;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    overflow-y: hidden;
+
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+
+    @include rwd-custom($width-lg) {
+        padding-left: 0;
+        padding-right: 0;
+        display: none;
+    }
+}
+
+.navbar_container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.navbar_Hidden {
+    top: -$navbar-height;
+}
+
+.nav_light {
+    background-color: rgba($background-color, 0.5);
+    color: $primary-color;
+}
+
+.nav_dark {
+    background-color: $background-color-dark;
+    color: $primary-color-dark;
+}
+
+.logo_container {
+    display: flex;
+    align-items: center;
+}
+
+.logo_title {
+    font-size: x-large;
+    font-weight: 700;
+    margin-left: 16px;
+    cursor: pointer;
+}
+
+.navbar_menu {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.link_container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.link {
+    border-radius: 5px;
+}
+
+.link_light {
+    color: $on-primary-container-color;
+
+    &:hover {
+        color: $on-primary-color;
+        background-color: $on-primary-container-color;
+    }
+}
+
+.link_dark {
+    color: $on-primary-container-color-dark;
+
+    &:hover {
+        color: $primary-color-dark;
+        background-color: $primary-container-color-dark;
+    }
+}
+
+.active_light {
+    color: $primary-color;
+    background-color: rgba($primary-container-color, 0.8);
+}
+
+.active_dark {
+    color: $primary-color;
+    background-color: rgba($primary-container-color, 0.8);
+}

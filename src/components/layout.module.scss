@@ -1,0 +1,29 @@
+@import "@/styles/variables.module.scss";
+.container {
+    position: relative;
+    margin: 0 auto;
+}
+
+.container_dark {
+    background-color: $background-color-dark;
+}
+
+.container_light {
+    background-color: $background-color;
+}
+
+/* styles/ProgressBar.css */
+.progress_bar {
+    height: 4px;
+    width: 0;
+    background-color: $primary-color; /* Change this to your desired color */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    transition: width 0.3s ease-out;
+}
+
+.progress_bar_active {
+    width: 100%;
+}
