@@ -56,14 +56,14 @@ export default function Layout({ children, title, content, image, ogType }: Layo
                     src="https://kit.fontawesome.com/fbadad80a0.js"
                     crossOrigin="anonymous"
                 ></script> */}
-        <title key="title">{title ? title : "Bobo Blog"}</title>
-        <meta name="title" content={title ? title : "Bobo Blog"} />
+        <title key="title">{title ? title : "YouTube to Your Format Converter"}</title>
+        <meta name="title" content={title ? title : "YouTube to Your Format Converter"} />
         <meta name="description"
-          content={content ? content : "Bobo Blog"}
+          content={content ? content : "YouTube to Your Format Converter"}
           key="description" />
         <meta name="image" content={image} />
         {/* 用來定義網頁的 Open Graph (OG) 屬性，用於在社交媒體平台上分享時提供更好的預覽效果 */}
-        <meta name="og:title" property="og:title" content={title ? title : "Bobo Blog"} />
+        <meta name="og:title" property="og:title" content={title ? title : "YouTube to Your Format Converter"} />
         <meta name="og:type" property="og:type" content={ogType ? ogType : ogTypes.website} />
         <meta
           name="og:url"
@@ -73,7 +73,7 @@ export default function Layout({ children, title, content, image, ogType }: Layo
         <meta
           name="og:description"
           property="og:description"
-          content={content ? content : "Bobo Blog"}
+          content={content ? content : "YouTube to Your Format Converter"}
         />
         <meta name="og:image" property="og:image" content={image} />
         {/* canonical */}

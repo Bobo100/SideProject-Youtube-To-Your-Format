@@ -1,6 +1,10 @@
 import '../styles/global.scss'
 import 'tailwindcss/tailwind.css'
+import { ThemeProvider } from 'next-themes';
 import { ComponentType } from 'react'
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+config.autoAddCss = false
 
 interface AppProps {
   Component: ComponentType;
@@ -8,8 +12,9 @@ interface AppProps {
 }
 function App({ Component, pageProps }: AppProps) {
   return (
-    <Component {...pageProps} />
-
+    <ThemeProvider attribute="class">
+      <Component {...pageProps} />
+    </ThemeProvider>
   )
 }
 

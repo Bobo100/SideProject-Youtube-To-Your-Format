@@ -57,7 +57,7 @@ const NavBar = () => {
         <nav id="navbar" className={`${styles.navbar} ${visible ? 'navbar--visible' : styles.navbar_Hidden} ${getThemeClassName('nav', styles, theme)}`} onClick={(e) => e.stopPropagation()}>
             <div className={styles.navbar_container}>
                 <div className={styles.logo_container}>
-                    <Link href={LinkListDetail["/"].href} className={styles.logo_title}>BOBO BLOG</Link>
+                    <Link href={LinkListDetail["/"].href} className={styles.logo_title}>YouTube to Your Format Converter</Link>
                 </div>
                 <div className={`${styles.navbar_menu}`}>
                     <div className={`${styles.link_container} ${getThemeClassName('link_container', styles, theme)}`}

@@ -11,6 +11,9 @@ import { LinkList, LinkListDetail } from "../linkList"
 import isEqual from "lodash/isEqual"
 import useWindowDevice from "@/hooks/useWindowDevice"
 import useWindowWidth from "@/hooks/useWindowWidth"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { fas } from '@fortawesome/free-solid-svg-icons';
+
 const NavBarMobile = () => {
     const router = useRouter()
 
@@ -120,7 +123,7 @@ const NavBarMobile = () => {
         <nav id="navbar_mobile" className={`${styles.navbar} ${visible ? 'navbar--visible' : styles.navbar_Hidden} ${getThemeClassName('nav', styles, theme)}`} onClick={(e) => e.stopPropagation()}>
             <div className={styles.navbar_container}>
                 <div className={styles.logo_container}>
-                    <Link href={LinkListDetail["/"].href} className={styles.logo_title}>BOBO BLOG</Link>
+                    <Link href={LinkListDetail["/"].href} className={styles.logo_title}>YouTube to Your Format Converter</Link>
                 </div>
                 <div className={`${styles.mobile_icon} ${getThemeClassName('mobile_icon', styles, theme)}`} onClick={handleIconClick}>
                     {click ? <FontAwesomeIcon icon={fas.faTimes} /> : <FontAwesomeIcon icon={fas.faBars} />}

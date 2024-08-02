@@ -5,8 +5,8 @@ const fs = require("fs");
 
 const createWindow = async () => {
   const win = new BrowserWindow({
-    width: 1920,
-    height: 1080,
+    width: 960,
+    height: 480,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
@@ -54,7 +54,14 @@ ipcMain.on("download-video", (event, youtubeUrl, outputPath) => {
   const ytDlpPath = path.join(
     app.getAppPath(),
     "resources",
+    "yt-dlp",
     process.platform === "win32" ? "yt-dlp.exe" : "yt-dlp"
+  );
+  const ffmpegPath = path.join(
+    app.getAppPath(),
+    "resources",
+    "ffmpeg",
+    process.platform === "win32" ? "ffmpeg.exe" : "ffmpeg"
   );
 
   const defaultPath = path.join(app.getPath("downloads"), "youtube-downloads");
@@ -66,12 +73,12 @@ ipcMain.on("download-video", (event, youtubeUrl, outputPath) => {
   if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath, { recursive: true });
   }
-
+  
   // Construct command with appropriate escaping
-  const command = `"${ytDlpPath}" --output "${path.join(
+  const command = `"${ytDlpPath}" --ffmpeg-location "${ffmpegPath}" --output "${path.join(
     outputPath,
     "%(title)s.%(ext)s"
-  )}" --merge-output-format mp4 -S "vcodec:h264,res,acodec" "${youtubeUrl}"`;
+  )}" -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4" --merge-output-format mp4 "${youtubeUrl}"`;
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
