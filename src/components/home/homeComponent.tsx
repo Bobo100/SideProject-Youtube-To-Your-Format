@@ -27,6 +27,11 @@ export default function HomeComponent() {
                 readOnly
                 hidden
             />
+            {/* 新增格式選取 */}
+            <select id="formatSelect" className={styles.select}>
+                <option value="mp3">MP3</option>
+                <option value="mp4">MP4</option>
+            </select>
             <button id="downloadButton"
                 className={styles.button}>Download and Convert</button>
             <p id="status"></p>
