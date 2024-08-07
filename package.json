@@ -1,11 +1,12 @@
 {
   "name": "youtube-to-your-format",
   "version": "1.0.0",
-  "main": "main/main.js",
+  "main": "main/main.mjs",
   "description": "youtube-to-your-format",
   "author": "Bobo",
   "scripts": {
     "dev": "concurrently -n \"NEXT,ELECTRON\" -c \"yellow,blue\" --kill-others \"next dev\" \"electron .\"",
+    "dev_electron": "electron .",
     "build": "next build && electron-builder",
     "build_next": "next build",
     "build_electron": "electron-builder",
@@ -29,10 +30,6 @@
           "**/*"
         ]
       }
-    ],
-    "asarUnpack": [
-      "resources/yt-dlp/yt-dlp.exe",
-      "resources/ffmpeg/ffmpeg.exe"
     ],
     "win": {
       "target": "nsis",
