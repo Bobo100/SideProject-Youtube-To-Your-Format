@@ -19,7 +19,7 @@ const createWindow = async (app) => {
 
   if (app.isPackaged) {
     await loadURL(win);
-    win.webContents.openDevTools(); // 在打包环境中打开开发者工具
+    // win.webContents.openDevTools(); // 在打包环境中打开开发者工具
   } else {
     win.loadURL("http://localhost:3000");
     win.webContents.openDevTools();
