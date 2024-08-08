@@ -14,6 +14,8 @@ const resources = {
             'mp3': 'MP3',
             'mp4': 'MP4',
             'downloadAndConvert': 'Download and Convert',
+
+            'joyrideIntroClick': 'Click here to start the guide',
         },
     },
     zh: {
@@ -29,6 +31,8 @@ const resources = {
             'mp3': 'MP3',
             'mp4': 'MP4',
             'downloadAndConvert': '下載並轉換',
+
+            'joyrideIntroClick': '忘記怎麼使用了嗎?可以點這裡開始導覽',
         },
     },
 };
