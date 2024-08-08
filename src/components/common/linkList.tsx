@@ -1,14 +1,14 @@
 export const LinkListDetail = {
     "/": {
         href: '/',
-        title: '首頁',
-        description: '首頁',
+        title: 'LinkHomeTitle',
+        description: 'LinkHomeDescription',
         className: '/'
     },
     "/404": {
         href: '/404',
-        title: '404',
-        description: '404',
+        title: 'Link404Title',
+        description: 'Link404Description',
         className: '/404'
     }
 }

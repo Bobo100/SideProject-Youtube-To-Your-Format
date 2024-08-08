@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ogTypes } from "@/utils/variablesUtils";
+import '../i18n/i18n';
 
 interface LayoutProps {
   children: React.ReactNode;

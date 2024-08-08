@@ -13,6 +13,8 @@ import useWindowDevice from "@/hooks/useWindowDevice"
 import useWindowWidth from "@/hooks/useWindowWidth"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import I18nSelector from "../i18nSelector/i18nSelector"
+import { useTranslation } from "react-i18next"
 
 const NavBarMobile = () => {
     const router = useRouter()
@@ -22,7 +24,7 @@ const NavBarMobile = () => {
     const { theme } = useTheme();
     const { width } = useWindowWidth();
     const { isDesktop } = useWindowDevice();
-
+    const { t } = useTranslation();
 
     const [click, setClick] = useState(false);
     const { lockScroll, unlockScroll } = useScrollLock('navbar_mobile');
@@ -113,7 +115,7 @@ const NavBarMobile = () => {
 
     const getLink = ({ href, name, className }: { href: string, name: string, className?: string }) => {
         return (
-            <Link href={`${href}`} className={`${styles.link} ${getThemeClassName('link', styles, theme)} ${getLinkClassName(`${className}`)}`} onClick={mobileClose}>{name}</Link>
+            <Link href={`${href}`} className={`${styles.link} ${getThemeClassName('link', styles, theme)} ${getLinkClassName(`${className}`)}`} onClick={mobileClose}>{t(name)}</Link>
         )
     }
 
@@ -123,7 +125,7 @@ const NavBarMobile = () => {
         <nav id="navbar_mobile" className={`${styles.navbar} ${visible ? 'navbar--visible' : styles.navbar_Hidden} ${getThemeClassName('nav', styles, theme)}`} onClick={(e) => e.stopPropagation()}>
             <div className={styles.navbar_container}>
                 <div className={styles.logo_container}>
-                    <Link href={LinkListDetail["/"].href} className={styles.logo_title}>YouTube to Your Format Converter</Link>
+                    <Link href={LinkListDetail["/"].href} className={styles.logo_title}>{t('appTitle')}</Link>
                 </div>
                 <div className={`${styles.mobile_icon} ${getThemeClassName('mobile_icon', styles, theme)}`} onClick={handleIconClick}>
                     {click ? <FontAwesomeIcon icon={fas.faTimes} /> : <FontAwesomeIcon icon={fas.faBars} />}
@@ -140,6 +142,7 @@ const NavBarMobile = () => {
                             )
                         })}
                         <ThemeToggle />
+                        <I18nSelector />
                     </div>
                     <div ref={overlayRef}
                         className={`${click ? `${styles.overlay} ${getThemeClassName('overlay', styles, theme)}` : ''}`}

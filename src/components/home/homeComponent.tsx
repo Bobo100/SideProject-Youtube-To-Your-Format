@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import styles from './homeComponent.module.scss';
+import { useTranslation } from 'react-i18next';
 
 export default function HomeComponent() {
-
+    const { t } = useTranslation();
     useEffect(() => {
         // 動態加載 renderer.js 以確保這段代碼只在客戶端執行
         const script = document.createElement('script');
@@ -18,10 +19,11 @@ export default function HomeComponent() {
 
     return (
         <div className={styles.container}>
-            <input type="text" id="youtubeUrl" placeholder="Enter YouTube URL"
+            <p>{t('login')}</p>
+            <input type="text" id="youtubeUrl" placeholder={t('youtubeUrlPlaceholder')}
                 className={styles.input} />
             <button id="selectFolderButton"
-                className={styles.button}>Select Output Folder</button>
+                className={styles.button}>{t('selectForderButton')}</button>
             <input type="text" id="outputPath" placeholder="Output Path"
                 className={styles.input}
                 readOnly
@@ -29,11 +31,11 @@ export default function HomeComponent() {
             />
             {/* 新增格式選取 */}
             <select id="formatSelect" className={styles.select}>
-                <option value="mp3">MP3</option>
-                <option value="mp4">MP4</option>
+                <option value="mp3">{t('mp3')}</option>
+                <option value="mp4">{t('mp4')}</option>
             </select>
             <button id="downloadButton"
-                className={styles.button}>Download and Convert</button>
+                className={styles.button}>{t('downloadAndConvert')}</button>
             <p id="status"></p>
         </div >
     )

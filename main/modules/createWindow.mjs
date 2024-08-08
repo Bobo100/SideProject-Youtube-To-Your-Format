@@ -6,7 +6,7 @@ import path, { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const loadURL = serve({ directory: "out" });
+// const loadURL = serve({ directory: "out" });
 
 const createWindow = async (app) => {
   let win = new BrowserWindow({
@@ -18,7 +18,8 @@ const createWindow = async (app) => {
   });
 
   if (app.isPackaged) {
-    await loadURL(win);
+    // await loadURL(win);
+    win.loadURL("http://localhost:3000"); // => 改用npx next start啟動next.js伺服器了 所以有網址
     // win.webContents.openDevTools(); // 在打包环境中打开开发者工具
   } else {
     win.loadURL("http://localhost:3000");

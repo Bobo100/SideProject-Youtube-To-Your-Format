@@ -1,0 +1,17 @@
+@import "@/styles/variables.module.scss";
+
+.themeToggle {
+    border-radius: 5px;
+}
+
+.themeToggle_light {
+    @include rwd-custom($width-lg) {
+        background-color: rgba($background-color, 0.5);
+    }
+}
+
+.themeToggle_dark {
+    @include rwd-custom($width-lg) {
+        background-color: rgba($background-color-dark, 0.5);
+    }
+}
