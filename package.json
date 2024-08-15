@@ -1,6 +1,6 @@
 {
   "name": "youtube-to-your-format",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "main/main.mjs",
   "description": "youtube-to-your-format",
   "author": "Bobo",
