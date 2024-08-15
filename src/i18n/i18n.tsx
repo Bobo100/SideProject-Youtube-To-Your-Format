@@ -3,6 +3,13 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import resources from './lang-resource';
 
+declare global {
+    interface Window {
+        i18n: typeof i18n;
+    }
+}
+
+
 i18n
     .use(initReactI18next)  // 初始化設定
     .init({
@@ -22,6 +29,7 @@ i18n
             useSuspense: false
         },
     });
+
 
 if (typeof window !== 'undefined') {
     window.i18n = i18n;
