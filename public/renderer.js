@@ -15,5 +15,6 @@ document.getElementById("downloadButton").addEventListener("click", () => {
 });
 
 window.electron.on("download-response", (message) => {
-  document.getElementById("status").innerText = message;
+  const translatedMessage = window.i18n.t(message);
+  document.getElementById("status").innerText = translatedMessage;
 });

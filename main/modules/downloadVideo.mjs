@@ -10,7 +10,10 @@ export const setupDownloadHandler = (app) => {
     async (event, youtubeUrl, outputPath, format) => {
       try {
         if (!youtubeUrl) {
-          throw new Error("No URL provided");
+          // throw new Error("No URL provided");
+          //不要用throw new Error，因為這樣會返回 Error 讓我不好帶入i18n
+          event.reply("download-response", "urlError");
+          return;
         }
 
         const resourcesPath = app.isPackaged
@@ -59,7 +62,9 @@ export const setupDownloadHandler = (app) => {
             "%(title)s.%(ext)s"
           )}" -f "bestaudio[ext=m4a]/bestaudio" --extract-audio --audio-format mp3 "${youtubeUrl}"`;
         } else {
-          throw new Error("Unsupported format");
+          // throw new Error("Unsupported format");
+          event.reply("download-response", "formatError");
+          return;
         }
 
         exec(command, { shell: true }, (error, stdout, stderr) => {
