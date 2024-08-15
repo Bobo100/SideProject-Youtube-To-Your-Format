@@ -16,6 +16,12 @@ const resources = {
             'downloadAndConvert': 'Download and Convert',
 
             'joyrideIntroClick': 'Click here to start the guide',
+
+            'System': 'System',
+            'Dark': 'Dark',
+            'Light': 'Light',
+
+            'urlError': 'Please enter a valid YouTube URL',
         },
     },
     zh: {
@@ -33,6 +39,12 @@ const resources = {
             'downloadAndConvert': '下載並轉換',
 
             'joyrideIntroClick': '忘記怎麼使用了嗎?可以點這裡開始導覽',
+
+            'System': '系統預設',
+            'Dark': '深色模式',
+            'Light': '亮色模式',
+
+            'urlError': '請輸入有效的 YouTube 網址',
         },
     },
 };
