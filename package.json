@@ -17,10 +17,8 @@
   "build": {
     "appId": "com.example.youtubetoyoutformat",
     "files": [
-      "out/**/*",
       "main/**/*",
-      "public/**/*",
-      "resources/**/*"
+      "public/**/*"
     ],
     "extraResources": [
       {
@@ -29,12 +27,20 @@
         "filter": [
           "**/*"
         ]
+      },
+      {
+        "from": "out/",
+        "to": "out/",
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "win": {
       "target": "nsis",
       "signAndEditExecutable": false
-    }
+    },
+    "asar": false
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
@@ -42,6 +48,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@tailwindcss/typography": "^0.5.13",
     "@types/lodash": "^4.17.7",
+    "electron-log": "^5.1.7",
     "electron-serve": "^2.0.0",
     "extract-zip": "^2.0.1",
     "i18next": "^23.12.2",

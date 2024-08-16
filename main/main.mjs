@@ -5,6 +5,7 @@ import { setupDownloadHandler } from "./modules/downloadVideo.mjs";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 import { exec } from "child_process";
+import log from "electron-log";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -16,19 +17,19 @@ let serverProcess;
 
 app.whenReady().then(() => {
   if (app.isPackaged) {
-    const serverPath = path.join(__dirname, "..");
-    console.log(`Server path: ${serverPath}`);
+    const serverPath = path.join(__dirname, "..", "..");
+    log.info(`Server path: ${serverPath}`);
+
     serverProcess = exec(
       "npx next start",
       { cwd: serverPath },
       (error, stdout, stderr) => {
         if (error) {
-          console.log(serverPath);
-          console.error(`exec error: ${error}`);
+          log.error(`exec error: ${error}`);
+          log.error(`stderr: ${stderr}`);
           return;
         }
-        console.log(`stdout: ${stdout}`);
-        console.error(`stderr: ${stderr}`);
+        log.info(`stdout: ${stdout}`);
       }
     );
   }
