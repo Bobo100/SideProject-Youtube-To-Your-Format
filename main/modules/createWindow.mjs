@@ -3,13 +3,14 @@ import serve from "electron-serve";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 // import { spawn } from "child_process";
-// import log from "electron-log";
+import log from "electron-log";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-const appServe = serve({ directory: "out" });
-// const appServe  = serve({ directory: path.join(__dirname, "..", "..", "out") });
+const serverPath = path.join(__dirname, "..", "..", "..", "out");
+const appServe = serve({
+  directory: serverPath,
+});
 
 const createWindow = async (app) => {
   let win = new BrowserWindow({
@@ -37,6 +38,8 @@ const createWindow = async (app) => {
     // server.stderr.on("data", (data) => {
     //   log.error(`Next.js Error: ${data}`);
     // });
+
+    log.info("Next.js: Starting server", serverPath);
 
     appServe(win).then(() => {
       win.loadURL("app://-");

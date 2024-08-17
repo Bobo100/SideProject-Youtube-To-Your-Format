@@ -2,6 +2,7 @@ import { ipcMain } from "electron";
 import path from "path";
 import fs from "fs";
 import { exec } from "child_process";
+import log from "electron-log";
 import { extractExecutable } from "./extractExecutable.mjs";
 
 export const setupDownloadHandler = (app) => {
@@ -17,7 +18,7 @@ export const setupDownloadHandler = (app) => {
         }
 
         const resourcesPath = app.isPackaged
-          ? path.join(process.resourcesPath, "..", "..")
+          ? path.join(process.resourcesPath, "..")
           : path.join(app.getAppPath());
 
         const ytDlpSourcePath = path.join(
@@ -32,6 +33,9 @@ export const setupDownloadHandler = (app) => {
           "ffmpeg",
           "ffmpeg.exe"
         );
+        log.info(`resourcesPath: ${resourcesPath}`);
+        log.info(`ytDlpSourcePath: ${ytDlpSourcePath}`);
+        log.info(`ffmpegSourcePath: ${ffmpegSourcePath}`);
 
         const tempPath = app.getPath("temp");
         const ytDlpPath = path.join(tempPath, "yt-dlp.exe");
