@@ -18,3 +18,11 @@ window.electron.on("download-response", (message) => {
   const translatedMessage = window.i18n.t(message);
   document.getElementById("status").innerText = translatedMessage;
 });
+
+window.electron.on("download-progress", (progress) => {
+  const progressBar = document.getElementById("progress-bar");
+  if (progressBar) {
+    progressBar.style.width = `${progress}%`;
+    progressBar.textContent = `${progress}%`;
+  }
+});

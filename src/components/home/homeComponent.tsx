@@ -73,6 +73,9 @@ export default function HomeComponent() {
             <button id="downloadButton"
                 className={`${styles.button} step4`}>{t('downloadAndConvert')}</button>
             <p id="status"></p>
+            <div id="progress-container" className={styles.progressContainer}>
+                <div id="progress-bar" className={styles.progressBar}>0%</div>
+            </div>
             <Joyride
                 steps={steps}
                 run={run}

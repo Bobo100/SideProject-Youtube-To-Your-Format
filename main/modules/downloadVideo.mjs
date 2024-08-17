@@ -71,17 +71,34 @@ export const setupDownloadHandler = (app) => {
           return;
         }
 
-        exec(command, { shell: true }, (error, stdout, stderr) => {
-          if (error) {
-            console.error(`Error: ${error.message}`);
-            event.reply("download-response", `Error: ${error.message}`);
-            return;
+        const process = exec(command, { shell: true });
+
+        // 监听 stdout 以获取进度
+        process.stdout.on("data", (data) => {
+          const progressMatch = data.match(/(\d+\.\d+)%/);
+          if (progressMatch) {
+            const progress = parseFloat(progressMatch[1]);
+            event.reply("download-progress", progress);
           }
-          if (stderr) {
-            console.error(`stderr: ${stderr}`);
+          console.log(`stdout: ${data}`);
+        });
+
+        process.stderr.on("data", (data) => {
+          console.error(`stderr: ${data}`);
+        });
+
+        process.on("close", (code) => {
+          if (code === 0) {
+            event.reply(
+              "download-response",
+              "Download and conversion complete!"
+            );
+          } else {
+            event.reply(
+              "download-response",
+              `Download failed with code ${code}`
+            );
           }
-          console.log(`stdout: ${stdout}`);
-          event.reply("download-response", "Download and conversion complete!");
         });
       } catch (error) {
         console.error(`Error: ${error.message}`);
