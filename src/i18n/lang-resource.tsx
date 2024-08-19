@@ -26,6 +26,8 @@ const resources = {
             'searchVideo': 'Search for videos, enter keywords',
             'search': 'Search',
             'copyUrl': 'Copy URL',
+
+            'openDownloadPanel': 'Open Download Panel',
         },
     },
     zh: {
@@ -53,6 +55,8 @@ const resources = {
             'searchVideo': '搜尋影片，輸入關鍵字',
             'search': '搜尋',
             'copyUrl': '點選複製網址',
+
+            'openDownloadPanel': '開啟下載面板',
         },
     },
 };

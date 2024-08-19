@@ -1,13 +1,10 @@
 import useYouTubeSearch from "@/hooks/useYoutubeSearch";
-import styles from './youtubeComponent.module.scss';
+import styles from './youtubePanel.module.scss';
 import { useTranslation } from "react-i18next";
 import { Dispatch, SetStateAction } from "react";
+import { YoutubeCommonProps } from "@/utils/types";
 
-interface YoutubeComponentProps {
-    setVideoUrl: Dispatch<SetStateAction<string>>;
-}
-
-const YoutubeComponent: React.FC<YoutubeComponentProps> = ({ setVideoUrl }) => {
+const YoutubeComponent: React.FC<YoutubeCommonProps> = ({ setVideoUrl }) => {
     const { t } = useTranslation();
     const { handleSearch, videos, query, setQuery } = useYouTubeSearch();
     return (

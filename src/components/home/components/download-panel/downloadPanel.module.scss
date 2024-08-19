@@ -1,0 +1,64 @@
+.container {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 0;
+    transition: opacity 400ms ease;
+    opacity: 0;
+}
+
+.active {
+    opacity: 1;
+    width: 100%;
+    z-index: 2147483646;
+}
+
+.panel {
+    background-color: #3d3d3d;
+    width: fit-content;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+
+    option {
+        font-size: 16px;
+    }
+}
+
+.button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.joyrideButton {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.progressBar {
+    width: 0%;
+    background-color: #007bff;
+    text-align: center;
+    color: white;
+}
