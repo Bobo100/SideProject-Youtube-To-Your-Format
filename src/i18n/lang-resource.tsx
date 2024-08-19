@@ -22,6 +22,10 @@ const resources = {
             'Light': 'Light',
 
             'urlError': 'Please enter a valid YouTube URL',
+
+            'searchVideo': 'Search for videos, enter keywords',
+            'search': 'Search',
+            'copyUrl': 'Copy URL',
         },
     },
     zh: {
@@ -45,6 +49,10 @@ const resources = {
             'Light': '亮色模式',
 
             'urlError': '請輸入有效的 YouTube 網址',
+
+            'searchVideo': '搜尋影片，輸入關鍵字',
+            'search': '搜尋',
+            'copyUrl': '點選複製網址',
         },
     },
 };

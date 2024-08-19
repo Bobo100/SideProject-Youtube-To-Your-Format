@@ -9,7 +9,6 @@ declare global {
     }
 }
 
-
 i18n
     .use(initReactI18next)  // 初始化設定
     .init({

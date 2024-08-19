@@ -18,7 +18,6 @@ const nextConfig = {
   //   locales: ["en", "zh"],
   //   defaultLocale: "zh",
   // },
-  trailingSlash: true,
 };
 
 export default nextConfig;

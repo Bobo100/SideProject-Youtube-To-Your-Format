@@ -11,7 +11,21 @@ export const startExpressServer = () => {
   // 启用 CORS，允许来自 http://localhost:3000 的请求
   expressAPP.use(
     cors({
-      origin: "http://localhost:3000",
+      // origin: (origin, callback) => {
+      //   if (
+      //     origin === "http://localhost:3000" ||
+      //     origin === "app://-" ||
+      //     !origin
+      //   ) {
+      //     // 允许这些来源的请求
+      //     callback(null, true);
+      //   } else {
+      //     // 拒绝其他来源的请求
+      //     callback(new Error("Not allowed by CORS"));
+      //   }
+      // },
+      // 暫時改成允許所有來源的請求
+      origin: "*",
     })
   );
 
