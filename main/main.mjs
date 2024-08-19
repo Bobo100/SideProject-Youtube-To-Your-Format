@@ -2,6 +2,7 @@ import { app, protocol } from "electron";
 import { createWindow } from "./modules/createWindow.mjs";
 import { setupDialogHandlers } from "./modules/handleDialogs.mjs";
 import { setupDownloadHandler } from "./modules/downloadVideo.mjs";
+import { startExpressServer } from "./modules/startExpressServer.mjs";
 
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
@@ -10,6 +11,7 @@ protocol.registerSchemesAsPrivileged([
 let serverProcess;
 
 app.whenReady().then(async () => {
+  startExpressServer();
   createWindow(app);
   setupDialogHandlers();
   setupDownloadHandler(app);

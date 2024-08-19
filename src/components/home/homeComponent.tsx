@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import styles from './homeComponent.module.scss';
 import { useTranslation } from 'react-i18next';
 import Joyride, { CallBackProps, STATUS } from 'react-joyride';
+import useYouTubeSearch from "../../hooks/useYoutubeSearc";
 
 export default function HomeComponent() {
     const { t } = useTranslation();
+    const { handleSearch, videos, query, setQuery } = useYouTubeSearch();
     useEffect(() => {
         // 動態加載 renderer.js 以確保這段代碼只在客戶端執行
         const script = document.createElement('script');
@@ -51,11 +53,26 @@ export default function HomeComponent() {
         }
     };
 
-
-
     return (
         <div className={styles.container}>
             <p>{t('login')}</p>
+            <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search for videos"
+            />
+            <button onClick={handleSearch}>Search</button>
+            <div>
+                {videos.map((video, index) => (
+                    <div key={index}>
+                        <a href={`https://www.youtube.com/watch?v=${video.id.videoId}`} target="_blank" rel="noopener noreferrer">
+                            <img src={video.snippet.thumbnails.default.url} alt={video.snippet.title} />
+                            <h3>{video.snippet.title}</h3>
+                        </a>
+                    </div>
+                ))}
+            </div>
             <input type="text" id="youtubeUrl" placeholder={t('youtubeUrlPlaceholder')}
                 className={`${styles.input} step1`} />
             <button id="selectFolderButton"
