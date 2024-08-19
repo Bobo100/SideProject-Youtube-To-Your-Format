@@ -40,6 +40,7 @@ yarn-error.log*
 
 # ffmpeg
 resources/ffmpeg/
+resources/ffmpeg.zip
 
 # electron build
 /out/
