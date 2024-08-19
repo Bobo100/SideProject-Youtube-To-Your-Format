@@ -60,14 +60,16 @@ async function downloadFile(url, dest) {
 }
 
 async function extractSpecificFiles(zipPath, extractTo, filesToExtract) {
+  // Ensure the extraction directory exists
+  if (!fs.existsSync(extractTo)) {
+    fs.mkdirSync(extractTo, { recursive: true });
+  }
   return new Promise((resolve, reject) => {
     fs.createReadStream(zipPath)
       .pipe(unzipper.Parse())
       .on("entry", (entry) => {
         const fileName = path.basename(entry.path);
         const directory = path.dirname(entry.path);
-        console.log(`fileName: ${fileName}`);
-        console.log(`Directory: ${directory}`);
 
         // Extract only files in "ffmpeg-7.0.2-essentials_build/bin" directory
         if (
@@ -78,7 +80,7 @@ async function extractSpecificFiles(zipPath, extractTo, filesToExtract) {
           const targetPath = path.join(extractTo, fileName);
           entry.pipe(fs.createWriteStream(targetPath));
         } else {
-          console.log('Skipping file:', fileName);
+          console.log("Skipping file:", fileName);
           entry.autodrain();
         }
       })
@@ -102,31 +104,39 @@ async function extractFile(zipPath, extractTo) {
 async function downloadAndExtractFFmpeg() {
   try {
     if (!fs.existsSync(ffmpegExtractPath)) {
-      console.log("Downloading FFmpeg...");
+      console.log("FFmpeg directory does not exist.");
 
-      try {
-        await downloadFile(ffmpegUrl, tempZipPath);
-      } catch (downloadError) {
-        console.error(downloadError);
-        console.log("Falling back to local file...");
-        // await extractFile(localFfmpegPath, ffmpegExtractPath);
+      if (fs.existsSync(localFfmpegPath)) {
+        console.log("Found local FFmpeg ZIP file. Extracting...");
+        await extractFile(localFfmpegPath, ffmpegExtractPath);
+        console.log("FFmpeg extracted from local file successfully.");
+      } else if (fs.existsSync(tempZipPath)) {
+        console.log("Found temporary FFmpeg ZIP file. Extracting...");
         await extractSpecificFiles(
-          localFfmpegPath,
+          tempZipPath,
           ffmpegExtractPath,
           filesToExtract
         );
-        return;
-      }
+        console.log("FFmpeg extracted from temporary file successfully.");
+      } else {
+        console.log("Downloading FFmpeg...");
 
-      console.log("Extracting FFmpeg...");
-      // await extractFile(tempZipPath, ffmpegExtractPath);
-      await extractSpecificFiles(
-        tempZipPath,
-        ffmpegExtractPath,
-        filesToExtract
-      );
-      fs.unlinkSync(tempZipPath); // Delete the ZIP file after extraction
-      console.log("FFmpeg downloaded and extracted successfully.");
+        try {
+          await downloadFile(ffmpegUrl, tempZipPath);
+        } catch (downloadError) {
+          console.error(downloadError);
+          return;
+        }
+
+        console.log("Extracting FFmpeg...");
+        await extractSpecificFiles(
+          tempZipPath,
+          ffmpegExtractPath,
+          filesToExtract
+        );
+        fs.unlinkSync(tempZipPath); // Delete the ZIP file after extraction
+        console.log("FFmpeg downloaded and extracted successfully.");
+      }
     } else {
       console.log("FFmpeg already exists.");
     }
