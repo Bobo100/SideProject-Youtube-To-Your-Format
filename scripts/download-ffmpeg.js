@@ -1,73 +1,97 @@
 const https = require("https");
 const fs = require("fs");
 const path = require("path");
-const extract = require("extract-zip"); // 如果ffmpeg是zip文件
+const extract = require("extract-zip");
 
-function downloadFile(url, dest, cb) {
-  const file = fs.createWriteStream(dest);
-  https
-    .get(url, (response) => {
-      response.pipe(file);
-      file.on("finish", () => {
-        file.close(() => {
-          // 验证文件大小
-          fs.stat(dest, (err, stats) => {
-            if (err) {
-              cb(err.message);
-            } else if (stats.size < 1024) {
-              // 假设文件大小至少为1KB，实际情况可能不同
-              fs.unlink(dest, () => {
-                cb("Downloaded file is too small, likely corrupted.");
-              });
-            } else {
-              cb();
-            }
+async function downloadFile(url, dest) {
+  return new Promise((resolve, reject) => {
+    const file = fs.createWriteStream(dest);
+    https
+      .get(url, (response) => {
+        if (response.statusCode !== 200) {
+          reject(
+            `Download failed: ${response.statusCode} ${response.statusMessage}`
+          );
+          return;
+        }
+
+        const totalSize = parseInt(response.headers["content-length"], 10);
+        let downloadedSize = 0;
+
+        response.on("data", (chunk) => {
+          downloadedSize += chunk.length;
+          const progress = ((downloadedSize / totalSize) * 100).toFixed(2);
+          process.stdout.write(`\rDownloading: ${progress}%`);
+        });
+
+        response.pipe(file);
+
+        file.on("finish", () => {
+          file.close(() => {
+            // Verify file size
+            fs.stat(dest, (err, stats) => {
+              if (err) {
+                reject(`Error getting file stats: ${err.message}`);
+              } else if (stats.size < 1024) {
+                fs.unlink(dest, () =>
+                  reject("Downloaded file is too small, likely corrupted.")
+                );
+              } else {
+                console.log("\nDownload complete.");
+                resolve();
+              }
+            });
           });
         });
+      })
+      .on("error", (err) => {
+        fs.unlink(dest, () => reject(`Download error: ${err.message}`));
       });
-    })
-    .on("error", (err) => {
-      fs.unlink(dest, () => cb(err.message));
-    });
-}
-
-const ffmpegUrl =
-  "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip";
-const localFfmpegPath = path.join(__dirname, "local-ffmpeg.zip"); // 预先下载好的本地文件路径
-const tempZipPath = path.join(__dirname, "..", "resources", "ffmpeg.zip");
-const ffmpegExtractPath = path.join(__dirname, "..", "resources", "ffmpeg");
-
-async function downloadAndExtractFFmpeg() {
-  if (!fs.existsSync(ffmpegExtractPath)) {
-    console.log("Downloading FFmpeg...");
-    downloadFile(ffmpegUrl, tempZipPath, (err) => {
-      if (err) {
-        console.error(`Error downloading ffmpeg: ${err}`);
-        console.log("Falling back to local file...");
-        extractAndLog(localFfmpegPath);
-      } else {
-        console.log("Extracting FFmpeg...");
-        extractAndLog(tempZipPath);
-      }
-    });
-  } else {
-    console.log("FFmpeg already exists.");
-  }
-}
-
-function extractAndLog(zipPath) {
-  extract(zipPath, { dir: ffmpegExtractPath }, (err) => {
-    if (err) {
-      console.error(`Error extracting ffmpeg: ${err}`);
-    } else {
-      if (zipPath !== localFfmpegPath) {
-        fs.unlinkSync(zipPath); // 解压后删除 ZIP 文件
-      }
-      console.log("FFmpeg downloaded and extracted successfully.");
-    }
   });
 }
 
-downloadAndExtractFFmpeg().catch((err) => {
-  console.error(`Error: ${err.message}`);
-});
+async function extractFile(zipPath, extractTo) {
+  return new Promise((resolve, reject) => {
+    extract(zipPath, { dir: extractTo }, (err) => {
+      if (err) {
+        reject(`Extraction failed: ${err.message}`);
+      } else {
+        resolve();
+      }
+    });
+  });
+}
+
+async function downloadAndExtractFFmpeg() {
+  const ffmpegUrl =
+    "https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-7.0.2-essentials_build.zip";
+  const tempZipPath = path.join(__dirname, "..", "resources", "ffmpeg.zip");
+  const ffmpegExtractPath = path.join(__dirname, "..", "resources", "ffmpeg");
+  const localFfmpegPath = path.join(__dirname, "local-ffmpeg.zip");
+
+  try {
+    if (!fs.existsSync(ffmpegExtractPath)) {
+      console.log("Downloading FFmpeg...");
+
+      try {
+        await downloadFile(ffmpegUrl, tempZipPath);
+      } catch (downloadError) {
+        console.error(downloadError);
+        console.log("Falling back to local file...");
+        await extractFile(localFfmpegPath, ffmpegExtractPath);
+        return;
+      }
+
+      console.log("Extracting FFmpeg...");
+      await extractFile(tempZipPath, ffmpegExtractPath);
+      fs.unlinkSync(tempZipPath); // Delete the ZIP file after extraction
+      console.log("FFmpeg downloaded and extracted successfully.");
+    } else {
+      console.log("FFmpeg already exists.");
+    }
+  } catch (error) {
+    console.error(`Failed to download and extract FFmpeg: ${error}`);
+  }
+}
+
+downloadAndExtractFFmpeg();
