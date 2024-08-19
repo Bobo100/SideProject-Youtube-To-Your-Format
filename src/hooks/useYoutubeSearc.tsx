@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { Video } from '../utils/types';
 
 const useYouTubeSearch = () => {
-    const [query, setQuery] = useState('');
-    const [videos, setVideos] = useState([]);
-    const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [query, setQuery] = useState<string>('');
+    const [videos, setVideos] = useState<Video[]>([]);
+    const [error, setError] = useState<string | null>(null);  // 修改这里，允许 string 或 null
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleSearch = async () => {
         setIsLoading(true);
@@ -19,7 +20,7 @@ const useYouTubeSearch = () => {
             setVideos(data.items);
         } catch (error) {
             console.error('Error fetching YouTube videos:', error);
-            setError(error.message);
+            setError((error as Error).message);
         } finally {
             setIsLoading(false);
         }
