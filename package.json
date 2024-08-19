@@ -59,7 +59,8 @@
     "react-dom": "^18",
     "react-i18next": "^15.0.1",
     "react-joyride": "^2.8.2",
-    "tsconfig-paths": "^4.2.0"
+    "tsconfig-paths": "^4.2.0",
+    "unzipper": "^0.12.3"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
