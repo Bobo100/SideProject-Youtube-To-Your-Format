@@ -43,9 +43,9 @@ const DownloadPanel: React.FC<DownloadPanelProps> = ({ videoUrl, setVideoUrl, ac
 
     return (
         <div className={`${styles.container} ${activePanel ? styles.active : ''}`}
-            // onClick={(e) => { e.stopPropagation(); setActivePanel(false) }}
+            onClick={() => { setActivePanel(false) }}
         >
-            <div className={styles.panel}>
+            <div className={`${styles.panel} ${activePanel ? styles.activePanel : ''}`} onClick={(e) => e.stopPropagation()}>
                 <input type="text" id="youtubeUrl" placeholder={t('youtubeUrlPlaceholder')}
                     className={`${styles.input} step1`} value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} />
                 <button id="selectFolderButton"
@@ -56,7 +56,9 @@ const DownloadPanel: React.FC<DownloadPanelProps> = ({ videoUrl, setVideoUrl, ac
                     hidden
                 />
                 {/* 新增格式選取 */}
-                <select id="formatSelect" className={`${styles.select} step3`}>
+                <select id="formatSelect" className={`${styles.select} step3`}
+                    defaultValue="mp3"
+                >
                     <option value="mp3">{t('mp3')}</option>
                     <option value="mp4">{t('mp4')}</option>
                 </select>
@@ -78,7 +80,7 @@ const DownloadPanel: React.FC<DownloadPanelProps> = ({ videoUrl, setVideoUrl, ac
                 <button className={styles.joyrideButton}
                     onClick={handleClickStart}>{t('joyrideIntroClick')}</button>
             </div>
-        </div>
+        </div >
     )
 }
 

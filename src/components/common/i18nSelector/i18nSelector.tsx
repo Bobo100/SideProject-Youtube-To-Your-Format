@@ -9,7 +9,7 @@ const I18nSelector = () => {
     }
 
     return (
-        <select className={`ml-[10px] mr-[10px] mb-[10px] p-[10px] border border-black ${styles.themeToggle}`}
+        <select className={`p-[10px] border border-black ${styles.themeToggle}`}
             onChange={(e) => handleChangeLanguage(e.target.value)} title={t('changeLanguage')}>
             <option value="zh">中文</option>
             <option value="en">English</option>

@@ -31,19 +31,24 @@ export const startExpressServer = () => {
 
   expressAPP.get("/api/youtube", async (req, res) => {
     const API_KEY = process.env.YOUTUBE_API_KEY;
-    console.log(API_KEY);
-    const { query } = req.query;
+    const { query, pageToken } = req.query;
 
     if (!query) {
       return res.status(400).json({ error: "Query parameter is required" });
     }
 
     try {
-      const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
-          query
-        )}&type=video&maxResults=10&key=${API_KEY}`
-      );
+      const url = new URL("https://www.googleapis.com/youtube/v3/search");
+      url.searchParams.append("part", "snippet");
+      url.searchParams.append("q", query);
+      url.searchParams.append("type", "video");
+      url.searchParams.append("maxResults", "10");
+      url.searchParams.append("key", API_KEY);
+      if (pageToken) {
+        url.searchParams.append("pageToken", pageToken);
+      }
+
+      const response = await fetch(url.toString());
 
       if (!response.ok) {
         throw new Error("Network response was not ok");

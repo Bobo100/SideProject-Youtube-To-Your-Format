@@ -11,6 +11,7 @@ const resources = {
 
             'youtubeUrlPlaceholder': 'Enter YouTube URL',
             'selectForderButton': 'Select Output Folder',
+            'outputPathPlaceholder': 'Output Path',
             'mp3': 'MP3',
             'mp4': 'MP4',
             'downloadAndConvert': 'Download and Convert',
@@ -24,8 +25,12 @@ const resources = {
             'urlError': 'Please enter a valid YouTube URL',
 
             'searchVideo': 'Search for videos, enter keywords',
+            'searchVideo2': 'Enter keywords',
             'search': 'Search',
             'copyUrl': 'Copy URL',
+            'prevPage': 'Previous Page',
+            'nextPage': 'Next Page',
+            'loading': 'Loading...',            
 
             'openDownloadPanel': 'Open Download Panel',
         },
@@ -40,6 +45,7 @@ const resources = {
 
             'youtubeUrlPlaceholder': '輸入 YouTube 網址',
             'selectForderButton': '選擇輸出資料夾',
+            'outputPathPlaceholder': '輸出路徑',
             'mp3': 'MP3',
             'mp4': 'MP4',
             'downloadAndConvert': '下載並轉換',
@@ -53,8 +59,12 @@ const resources = {
             'urlError': '請輸入有效的 YouTube 網址',
 
             'searchVideo': '搜尋影片，輸入關鍵字',
+            'searchVideo2': '輸入關鍵字',
             'search': '搜尋',
             'copyUrl': '點選複製網址',
+            'prevPage': '上一頁',
+            'nextPage': '下一頁',
+            'loading': '載入中...',
 
             'openDownloadPanel': '開啟下載面板',
         },

@@ -1,29 +1,9 @@
 .container {
     position: relative;
-    margin: 20px;
+    min-height: 100vh;
 
     & > * {
         margin-bottom: 10px;
-    }
-}
-
-.input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-
-    option {
-        font-size: 16px;
     }
 }
 
@@ -32,20 +12,4 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
-}
-
-.joyrideButton {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: #fff;
-}
-
-.progressBar {
-    width: 0%;
-    background-color: #007bff;
-    text-align: center;
-    color: white;
 }

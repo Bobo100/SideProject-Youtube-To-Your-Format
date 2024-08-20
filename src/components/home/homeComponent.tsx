@@ -3,7 +3,7 @@ import styles from './homeComponent.module.scss';
 import { useTranslation } from 'react-i18next';
 import Joyride, { CallBackProps, STATUS } from 'react-joyride';
 import YoutubePanel from "./components/youtubePanel/youtubePanel";
-import DownloadPanel from "./components/download-panel/downloadPanel";
+import DownloadPanel from "./components/downloadPanel/downloadPanel";
 
 export default function HomeComponent() {
     const { t } = useTranslation();
@@ -25,10 +25,11 @@ export default function HomeComponent() {
 
     return (
         <div className={styles.container}>
-            <p>{t('login')}</p>
-            <YoutubePanel setVideoUrl={setVideoUrl} />
-            <button onClick={() => setActivePanel(!activePanel)}>{t('openDownloadPanel')}</button>
-            <DownloadPanel videoUrl={videoUrl} setVideoUrl={setVideoUrl} activePanel={activePanel} setActivePanel={setActivePanel} />
+            <YoutubePanel videoUrl={videoUrl} setVideoUrl={setVideoUrl} />
+            {/* <button onClick={() => setActivePanel(!activePanel)}
+                className={styles.button}
+            >{t('openDownloadPanel')}</button> */}
+            {/* <DownloadPanel videoUrl={videoUrl} setVideoUrl={setVideoUrl} activePanel={activePanel} setActivePanel={setActivePanel} /> */}
         </div >
     )
 }

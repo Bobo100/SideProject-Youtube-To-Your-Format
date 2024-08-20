@@ -9,6 +9,28 @@ interface Video {
         thumbnails: {
             default: {
                 url: string;
+                width: number;
+                height: number;
+            };
+            medium?: {
+                url: string;
+                width: number;
+                height: number;
+            };
+            high?: {
+                url: string;
+                width: number;
+                height: number;
+            };
+            standard?: {
+                url: string;
+                width: number;
+                height: number;
+            };
+            maxres?: {
+                url: string;
+                width: number;
+                height: number;
             };
         };
     };
@@ -23,4 +45,9 @@ interface DownloadPanelProps extends YoutubeCommonProps {
     setActivePanel: Dispatch<SetStateAction<string>>;
 }
 
-export type { Video, YoutubeCommonProps, DownloadPanelProps };
+interface HandleSearchProps {
+    pageToken?: string;
+    firstTime?: boolean;
+}
+
+export type { Video, YoutubeCommonProps, DownloadPanelProps, HandleSearchProps };

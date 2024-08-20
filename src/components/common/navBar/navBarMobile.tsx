@@ -6,7 +6,6 @@ import ThemeToggle from "@/components/theme/themeToggle"
 import { useTheme } from "next-themes"
 import { getThemeClassName } from "@/utils/commonFunction"
 import { useScrollLock } from "@/hooks/useScrollLock"
-import ImageWrapper from "../imageWrapper/imageWrapper"
 import { LinkList, LinkListDetail } from "../linkList"
 import isEqual from "lodash/isEqual"
 import useWindowDevice from "@/hooks/useWindowDevice"
@@ -49,11 +48,8 @@ const NavBarMobile = () => {
                 setClick(false);
             }
         };
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        }
-    }, []);
+        handleResize();
+    }, [width]);
 
     useEffect(() => {
         const handleScroll = () => {
