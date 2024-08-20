@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HandleSearchProps, Video } from '@/utils/types';
 
 const useYouTubeSearch = () => {
@@ -6,8 +6,15 @@ const useYouTubeSearch = () => {
     const [videos, setVideos] = useState<Video[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [apiKey, setApiKey] = useState<string>('');
+    const [pageToken, setPageToken] = useState<string>('');
 
-    const handleSearch = async ({ pageToken = '', firstTime = false }: HandleSearchProps = {}) => {
+    useEffect(() => {
+        const storedApiKey = localStorage.getItem('apiKey') as string;
+        setApiKey(storedApiKey);
+    }, []);
+
+    const handleSearch = async ({pageToken = '', firstTime = false }: HandleSearchProps = {}) => {
         setIsLoading(true);
         setError(null);
         try {
@@ -15,6 +22,9 @@ const useYouTubeSearch = () => {
             url.searchParams.append('query', query);
             if (pageToken) {
                 url.searchParams.append('pageToken', pageToken);
+            }
+            if (apiKey) {
+                url.searchParams.append('apiKey', apiKey);
             }
 
             const response = await fetch(url.toString());
@@ -28,6 +38,7 @@ const useYouTubeSearch = () => {
             } else {
                 setVideos((prevVideos) => [...prevVideos, ...data.items]);
             }
+            setPageToken(data.nextPageToken);
         } catch (error) {
             console.error('Error fetching YouTube videos:', error);
             setError((error as Error).message);
@@ -43,6 +54,9 @@ const useYouTubeSearch = () => {
         handleSearch,
         error,
         isLoading,
+        apiKey,
+        setApiKey,
+        pageToken,
     };
 };
 

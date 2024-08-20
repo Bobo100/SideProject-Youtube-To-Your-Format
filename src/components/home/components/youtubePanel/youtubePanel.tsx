@@ -1,7 +1,7 @@
 import useYouTubeSearch from "@/hooks/useYoutubeSearch";
 import styles from './youtubePanel.module.scss';
 import { useTranslation } from "react-i18next";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { YoutubeCommonProps } from "@/utils/types";
 import FormatSelector from "../formatSelector/formatSelector";
 import { getThemeClassName } from "@/utils/commonFunction";
@@ -12,7 +12,7 @@ import SelectFolder from "../selectFolder/selectFolder";
 const YoutubeComponent: React.FC<YoutubeCommonProps> = ({ videoUrl, setVideoUrl }) => {
     const { t } = useTranslation();
     const { theme } = useTheme();
-    const { handleSearch, videos, query, setQuery, isLoading } = useYouTubeSearch();
+    const { handleSearch, videos, query, setQuery, isLoading, apiKey, setApiKey, pageToken } = useYouTubeSearch();
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [visible, setVisible] = useState(true);
     const { width } = useWindowWidth();
@@ -20,7 +20,7 @@ const YoutubeComponent: React.FC<YoutubeCommonProps> = ({ videoUrl, setVideoUrl 
     useEffect(() => {
         const handleScroll = async () => {
             if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 150 && !isLoading && videos.length) {
-                await handleSearch();
+                await handleSearch({ pageToken: pageToken });
             }
 
             const currentScrollPos = window.scrollY;
@@ -40,6 +40,14 @@ const YoutubeComponent: React.FC<YoutubeCommonProps> = ({ videoUrl, setVideoUrl 
             window.removeEventListener('scroll', handleScroll);
         };
     }, [isLoading, handleSearch]);
+
+    const handleSearchLogic = async ({ firstTime = false }) => {
+        await handleSearch({ firstTime });
+        const localStorageApiKey = localStorage.getItem('apiKey');
+        if ((localStorageApiKey && localStorageApiKey !== apiKey) || !localStorageApiKey) {
+            localStorage.setItem('apiKey', apiKey);
+        }
+    }
 
     const getThumbnailUrl = (thumbnails: any) => {
         return (
@@ -68,8 +76,17 @@ const YoutubeComponent: React.FC<YoutubeCommonProps> = ({ videoUrl, setVideoUrl 
                     />
                     <FormatSelector />
                 </div>
+                <div className={styles.apiKeyContainer}>
+                    <input
+                        type="text"
+                        value={apiKey}
+                        onChange={(e) => setApiKey(e.target.value)}
+                        placeholder={t('apiKeyPlaceholder')}
+                        className={styles.input}
+                    />
+                </div>
                 <SelectFolder />
-                <button onClick={async () => await handleSearch({ firstTime: true })}
+                <button onClick={() => handleSearchLogic({ firstTime: true })}
                     className={styles.searchButton}
                 >{t('search')}</button>
                 <div id="progress-container" className={styles.progressContainer}>

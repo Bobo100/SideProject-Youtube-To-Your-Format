@@ -31,7 +31,7 @@ export const startExpressServer = () => {
 
   expressAPP.get("/api/youtube", async (req, res) => {
     const API_KEY = process.env.YOUTUBE_API_KEY;
-    const { query, pageToken } = req.query;
+    const { query, pageToken, apiKey } = req.query;
 
     if (!query) {
       return res.status(400).json({ error: "Query parameter is required" });
@@ -43,7 +43,7 @@ export const startExpressServer = () => {
       url.searchParams.append("q", query);
       url.searchParams.append("type", "video");
       url.searchParams.append("maxResults", "10");
-      url.searchParams.append("key", API_KEY);
+      url.searchParams.append("key", apiKey || API_KEY);
       if (pageToken) {
         url.searchParams.append("pageToken", pageToken);
       }
