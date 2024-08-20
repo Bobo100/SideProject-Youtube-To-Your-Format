@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from './homeComponent.module.scss';
 import { useTranslation } from 'react-i18next';
-import Joyride, { CallBackProps, STATUS } from 'react-joyride';
 import YoutubePanel from "./components/youtubePanel/youtubePanel";
-import DownloadPanel from "./components/downloadPanel/downloadPanel";
 
 export default function HomeComponent() {
     const { t } = useTranslation();

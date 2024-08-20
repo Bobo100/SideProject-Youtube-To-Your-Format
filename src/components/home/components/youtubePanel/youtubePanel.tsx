@@ -1,12 +1,12 @@
 import useYouTubeSearch from "@/hooks/useYoutubeSearch";
 import styles from './youtubePanel.module.scss';
 import { useTranslation } from "react-i18next";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { YoutubeCommonProps } from "@/utils/types";
 import FormatSelector from "../formatSelector/formatSelector";
 import { getThemeClassName } from "@/utils/commonFunction";
 import { useTheme } from "next-themes";
-import useWindowWidth from "../../../../hooks/useWindowWidth";
+import useWindowWidth from "@/hooks/useWindowWidth";
 import SelectFolder from "../selectFolder/selectFolder";
 
 const YoutubeComponent: React.FC<YoutubeCommonProps> = ({ videoUrl, setVideoUrl }) => {

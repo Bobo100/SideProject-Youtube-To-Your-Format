@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { HandleSearchProps, Video } from '../utils/types';
+import { HandleSearchProps, Video } from '@/utils/types';
 
 const useYouTubeSearch = () => {
     const [query, setQuery] = useState<string>('');
