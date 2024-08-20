@@ -12,7 +12,10 @@ const SelectFolder = () => {
                 className={styles.input}
                 readOnly
                 onClick={() => {
-                    document.getElementById('selectFolderButton').click();
+                    const selectFolderButton = document.getElementById('selectFolderButton');
+                    if (selectFolderButton) {
+                        selectFolderButton.click();
+                    }
                 }}
             />
         </>

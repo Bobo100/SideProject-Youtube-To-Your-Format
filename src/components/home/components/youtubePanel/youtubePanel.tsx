@@ -93,7 +93,10 @@ const YoutubeComponent: React.FC<YoutubeCommonProps> = ({ videoUrl, setVideoUrl 
                         </a>
                         <button className={styles.downloadButton} onClick={async () => {
                             await setVideoUrl(`https://www.youtube.com/watch?v=${video.id.videoId}`);
-                            document.getElementById('downloadButton').click();
+                            const downloadButton = document.getElementById('downloadButton');
+                            if (downloadButton) {
+                                downloadButton.click();
+                            }
                         }}>
                             {t('downloadAndConvert')}
                         </button>

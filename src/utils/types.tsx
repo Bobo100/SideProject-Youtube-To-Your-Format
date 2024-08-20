@@ -42,7 +42,7 @@ interface YoutubeCommonProps {
 }
 interface DownloadPanelProps extends YoutubeCommonProps {
     activePanel: string;
-    setActivePanel: Dispatch<SetStateAction<string>>;
+    setActivePanel: Dispatch<SetStateAction<boolean>>;
 }
 
 interface HandleSearchProps {
