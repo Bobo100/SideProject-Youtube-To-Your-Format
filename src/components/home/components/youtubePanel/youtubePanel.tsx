@@ -57,7 +57,6 @@ const YoutubeComponent = ({ videoUrl, setVideoUrl }: YoutubeCommonProps) => {
         }
     }
 
-
     return (
         <>
             <div className={`${styles.fixedHeader} ${getThemeClassName('fixedHeader', styles, theme)} ${visible ? `${styles.fixedHeader_Visible}` : ''}`}>
@@ -70,7 +69,6 @@ const YoutubeComponent = ({ videoUrl, setVideoUrl }: YoutubeCommonProps) => {
                 <p id="status"></p>
             </div>
             <button id="downloadButton"
-                className={`${styles.button}`}
                 hidden>
                 {t('downloadAndConvert')}
             </button>

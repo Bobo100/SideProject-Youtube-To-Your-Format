@@ -3,12 +3,14 @@ import path from "path";
 import fs from "fs";
 import { exec } from "child_process";
 import log from "electron-log";
-import { extractExecutable } from "./extractExecutable.mjs";
 
 export const setupDownloadHandler = (app) => {
   ipcMain.on(
     "download-video",
     async (event, youtubeUrl, outputPath, format) => {
+      log.info(`youtubeUrl: ${youtubeUrl}`);
+      log.info(`outputPath: ${outputPath}`);
+      log.info(`format: ${format}`);
       try {
         if (!youtubeUrl) {
           // throw new Error("No URL provided");
@@ -18,8 +20,9 @@ export const setupDownloadHandler = (app) => {
         }
 
         const resourcesPath = app.isPackaged
-          ? path.join(process.resourcesPath, "..")
+          ? path.join(process.resourcesPath)
           : path.join(app.getAppPath());
+        log.info(`resourcesPath: ${resourcesPath}`);
 
         const ytDlpSourcePath = path.join(
           resourcesPath,
@@ -27,22 +30,15 @@ export const setupDownloadHandler = (app) => {
           "yt-dlp",
           "yt-dlp.exe"
         );
+        log.info(`ytDlpSourcePath: ${ytDlpSourcePath}`);
+
         const ffmpegSourcePath = path.join(
           resourcesPath,
           "resources",
           "ffmpeg",
           "ffmpeg.exe"
         );
-        log.info(`resourcesPath: ${resourcesPath}`);
-        log.info(`ytDlpSourcePath: ${ytDlpSourcePath}`);
         log.info(`ffmpegSourcePath: ${ffmpegSourcePath}`);
-
-        const tempPath = app.getPath("temp");
-        const ytDlpPath = path.join(tempPath, "yt-dlp.exe");
-        const ffmpegPath = path.join(tempPath, "ffmpeg.exe");
-
-        await extractExecutable(ytDlpSourcePath, ytDlpPath);
-        await extractExecutable(ffmpegSourcePath, ffmpegPath);
 
         const defaultPath = path.join(
           app.getPath("downloads"),
@@ -56,12 +52,12 @@ export const setupDownloadHandler = (app) => {
 
         let command;
         if (format === "mp4") {
-          command = `"${ytDlpPath}" --ffmpeg-location "${ffmpegPath}" --output "${path.join(
+          command = `"${ytDlpSourcePath}" --ffmpeg-location "${ffmpegSourcePath}" --output "${path.join(
             outputPath,
             "%(title)s.%(ext)s"
           )}" -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4" --merge-output-format mp4 "${youtubeUrl}"`;
         } else if (format === "mp3") {
-          command = `"${ytDlpPath}" --ffmpeg-location "${ffmpegPath}" --output "${path.join(
+          command = `"${ytDlpSourcePath}" --ffmpeg-location "${ffmpegSourcePath}" --output "${path.join(
             outputPath,
             "%(title)s.%(ext)s"
           )}" -f "bestaudio[ext=m4a]/bestaudio" --extract-audio --audio-format mp3 "${youtubeUrl}"`;
@@ -71,10 +67,10 @@ export const setupDownloadHandler = (app) => {
           return;
         }
 
-        const process = exec(command, { shell: true });
+        const execProcess = exec(command, { shell: true });
 
         // 監聽進度
-        process.stdout.on("data", (data) => {
+        execProcess.stdout.on("data", (data) => {
           const progressMatch = data.match(/(\d+\.\d+)%/);
           if (progressMatch) {
             let progress = parseFloat(progressMatch[1]);
@@ -85,13 +81,15 @@ export const setupDownloadHandler = (app) => {
             event.reply("download-progress", progress);
           }
           console.log(`stdout: ${data}`);
+          log.info(`stdout: ${data}`);
         });
 
-        process.stderr.on("data", (data) => {
+        execProcess.stderr.on("data", (data) => {
           console.error(`stderr: ${data}`);
+          log.error(`stderr: ${data}`);
         });
 
-        process.on("close", (code) => {
+        execProcess.on("close", (code) => {
           if (code === 0) {
             event.reply("download-progress", 100);
             event.reply(
@@ -107,6 +105,7 @@ export const setupDownloadHandler = (app) => {
         });
       } catch (error) {
         console.error(`Error: ${error.message}`);
+        log.error(`Error: ${error.message}`);
         event.reply("download-response", `Error: ${error.message}`);
       }
     }

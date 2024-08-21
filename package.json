@@ -36,11 +36,15 @@
         ]
       }
     ],
+    "asar": true,
+    "asarUnpack": [
+      "resources/**/*",
+      "out/**/*"
+    ],
     "win": {
       "target": "nsis",
       "signAndEditExecutable": false
-    },
-    "asar": false
+    }
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
