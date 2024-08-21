@@ -1,0 +1,21 @@
+@import "@/styles/variables.module.scss";
+
+.container {
+    display: flex;
+}
+
+.title {
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+.progressContainer {
+    width: 100%;
+}
+
+.progressBar {
+    width: 0%;
+    background-color: #007bff;
+    text-align: center;
+    color: white;
+}

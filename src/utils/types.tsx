@@ -40,6 +40,23 @@ interface YoutubeCommonProps {
     videoUrl: string;
     setVideoUrl: Dispatch<SetStateAction<string>>;
 }
+
+
+interface SearchProps extends YoutubeCommonProps {
+    query: string;
+    setQuery: Dispatch<SetStateAction<string>>;
+}
+
+interface ApiKeyInputProps {
+    apiKey: string;
+    setApiKey: Dispatch<SetStateAction<string>>;
+}
+
+interface SettingPanelProps extends ApiKeyInputProps {
+    opened: boolean;
+}
+
+
 interface DownloadPanelProps extends YoutubeCommonProps {
     activePanel: string;
     setActivePanel: Dispatch<SetStateAction<boolean>>;
@@ -50,4 +67,9 @@ interface HandleSearchProps {
     firstTime?: boolean;
 }
 
-export type { Video, YoutubeCommonProps, DownloadPanelProps, HandleSearchProps };
+interface SearchResultProps {
+    videos: Video[];
+    setVideoUrl: Dispatch<SetStateAction<string>>;
+}
+
+export type { Video, YoutubeCommonProps, DownloadPanelProps, HandleSearchProps, ApiKeyInputProps, SearchResultProps, SearchProps, SettingPanelProps };

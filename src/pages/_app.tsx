@@ -1,5 +1,7 @@
+import { Provider } from 'react-redux';
 import '../styles/global.scss'
 import 'tailwindcss/tailwind.css'
+import { store } from '@/redux/store/store';
 import { ThemeProvider } from 'next-themes';
 import { ComponentType } from 'react'
 import { config } from '@fortawesome/fontawesome-svg-core'
@@ -12,9 +14,11 @@ interface AppProps {
 }
 function App({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider attribute="class">
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider attribute="class">
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </Provider>
   )
 }
 

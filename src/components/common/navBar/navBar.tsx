@@ -1,60 +1,19 @@
-import { Fragment, useEffect, useRef, useState } from "react"
+import { Fragment, useRef } from "react"
 import styles from "./navBar.module.scss"
 import Link from "next/link"
-import { useRouter } from "next/router"
 import ThemeToggle from "@/components/theme/themeToggle"
 import { useTheme } from "next-themes"
 import { getThemeClassName } from "@/utils/commonFunction"
 import { LinkList, LinkListDetail } from "../linkList"
-import isEqual from "lodash/isEqual"
-import useWindowWidth from "@/hooks/useWindowWidth"
 import I18nSelector from "../i18nSelector/i18nSelector"
 import { useTranslation } from "react-i18next"
+import UseNavBarCommon from "./hooks/useNavBarCommon"
 const NavBar = () => {
-    const router = useRouter()
-
-    const [prevScrollPos, setPrevScrollPos] = useState(0);
-    const [visible, setVisible] = useState(true);
     const { theme } = useTheme();
-    const { width } = useWindowWidth();
     const { t } = useTranslation();
+    const { getLink, visible } = UseNavBarCommon();
 
     const linkContainerRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollPos = window.scrollY;
-            const visible = prevScrollPos >= currentScrollPos;
-            if (width < 1024) {
-                setVisible(true);
-                setPrevScrollPos(currentScrollPos);
-                return;
-            }
-
-            setPrevScrollPos(currentScrollPos);
-            setVisible(visible);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [prevScrollPos, visible]);
-
-    const getLinkClassName = (path: string) => {
-        const isHome = isEqual(path, '/');
-        const isActive = isHome ? isEqual(router.pathname, path) :
-            router.pathname.startsWith(path)
-        const activeStyles = isEqual(theme, 'light') ? styles.active_light : styles.active_dark;
-        return isActive ? activeStyles : '';
-    };
-
-    const getLink = ({ href, name, className }: { href: string, name: string, className?: string }) => {
-        return (
-            <Link href={`${href}`} className={`${styles.link} ${getThemeClassName('link', styles, theme)} ${getLinkClassName(`${className}`)}`}>{t(name)}</Link>
-        )
-    }
 
     return (
         <nav id="navbar" className={`${styles.navbar} ${visible ? 'navbar--visible' : styles.navbar_Hidden} ${getThemeClassName('nav', styles, theme)}`} onClick={(e) => e.stopPropagation()}>
@@ -69,7 +28,7 @@ const NavBar = () => {
                         {LinkList.map((item, index) => {
                             return (
                                 <Fragment key={index}>
-                                    {getLink(item)}
+                                    {getLink({ ...item, styles })}
                                 </Fragment>
                             )
                         })}

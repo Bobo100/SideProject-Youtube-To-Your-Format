@@ -5,7 +5,7 @@ const SelectFolder = () => {
     const { t } = useTranslation();
 
     return (
-        <>
+        <div className={styles.selectFolder}>
             <button id="selectFolderButton"
                 className={`${styles.button}`}>{t('selectForderButton')}</button>
             <input type="text" id="outputPath" placeholder={t('outputPathPlaceholder')}
@@ -18,7 +18,7 @@ const SelectFolder = () => {
                     }
                 }}
             />
-        </>
+        </div>
     )
 }
 

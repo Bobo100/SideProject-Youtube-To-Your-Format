@@ -3,19 +3,27 @@ import styles from './youtubePanel.module.scss';
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { YoutubeCommonProps } from "@/utils/types";
-import FormatSelector from "../formatSelector/formatSelector";
 import { getThemeClassName } from "@/utils/commonFunction";
 import { useTheme } from "next-themes";
 import useWindowWidth from "@/hooks/useWindowWidth";
 import SelectFolder from "../selectFolder/selectFolder";
+import ApiKeyInput from "../apiKeyInput/apiKeyInput";
+import SearchResult from "../searchResult/searchResult";
+import ProgressBar from "../progressBar/progressBar";
+import Search from "../search/search";
+import SettingPanel from "../settingPanel/settingPanel";
+import { useAppSelector } from "@/redux/hook/hook";
+import { reduxSettingData } from "@/redux/slice/settingSlice";
 
-const YoutubeComponent: React.FC<YoutubeCommonProps> = ({ videoUrl, setVideoUrl }) => {
+const YoutubeComponent = ({ videoUrl, setVideoUrl }: YoutubeCommonProps) => {
     const { t } = useTranslation();
     const { theme } = useTheme();
+    const { width } = useWindowWidth();
     const { handleSearch, videos, query, setQuery, isLoading, apiKey, setApiKey, pageToken } = useYouTubeSearch();
+
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [visible, setVisible] = useState(true);
-    const { width } = useWindowWidth();
+    const settingData = useAppSelector(reduxSettingData);
 
     useEffect(() => {
         const handleScroll = async () => {
@@ -44,54 +52,21 @@ const YoutubeComponent: React.FC<YoutubeCommonProps> = ({ videoUrl, setVideoUrl 
     const handleSearchLogic = async ({ firstTime = false }) => {
         await handleSearch({ firstTime });
         const localStorageApiKey = localStorage.getItem('apiKey');
-        if ((localStorageApiKey && localStorageApiKey !== apiKey) || !localStorageApiKey) {
+        if ((localStorageApiKey && apiKey && localStorageApiKey !== apiKey) || !localStorageApiKey) {
             localStorage.setItem('apiKey', apiKey);
         }
     }
 
-    const getThumbnailUrl = (thumbnails: any) => {
-        return (
-            thumbnails.maxres?.url ||
-            thumbnails.standard?.url ||
-            thumbnails.high?.url ||
-            thumbnails.medium?.url ||
-            thumbnails.default.url
-        );
-    };
 
     return (
         <>
             <div className={`${styles.fixedHeader} ${getThemeClassName('fixedHeader', styles, theme)} ${visible ? `${styles.fixedHeader_Visible}` : ''}`}>
-                <div className={styles.searchContainer}>
-                    <p className={styles.searchTitle}
-                    >{t('searchVideo2')}</p>
-                    <input type="text" id="youtubeUrl" placeholder={t('youtubeUrlPlaceholder')}
-                        className={`${styles.input}`} value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} hidden />
-                    <input
-                        type="text"
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        placeholder={t('searchVideo')}
-                        className={styles.searchInput}
-                    />
-                    <FormatSelector />
-                </div>
-                <div className={styles.apiKeyContainer}>
-                    <input
-                        type="text"
-                        value={apiKey}
-                        onChange={(e) => setApiKey(e.target.value)}
-                        placeholder={t('apiKeyPlaceholder')}
-                        className={styles.input}
-                    />
-                </div>
+                <Search videoUrl={videoUrl} setVideoUrl={setVideoUrl} query={query} setQuery={setQuery} />
                 <SelectFolder />
                 <button onClick={() => handleSearchLogic({ firstTime: true })}
                     className={styles.searchButton}
                 >{t('search')}</button>
-                <div id="progress-container" className={styles.progressContainer}>
-                    <div id="progress-bar" className={styles.progressBar}>0%</div>
-                </div>
+                <ProgressBar />
                 <p id="status"></p>
             </div>
             <button id="downloadButton"
@@ -99,29 +74,10 @@ const YoutubeComponent: React.FC<YoutubeCommonProps> = ({ videoUrl, setVideoUrl 
                 hidden>
                 {t('downloadAndConvert')}
             </button>
-            <div className={styles.videoContainer}>
-                {videos.map((video, index) => (
-                    <div key={index}>
-                        <a href={`https://www.youtube.com/watch?v=${video.id.videoId}`} target="_blank" rel="noopener noreferrer">
-                            <img src={getThumbnailUrl(video.snippet.thumbnails)} alt={video.snippet.title}
-                            />
-                            <h3 className={styles.videoTitle}
-                            >{video.snippet.title}</h3>
-                        </a>
-                        <button className={styles.downloadButton} onClick={async () => {
-                            await setVideoUrl(`https://www.youtube.com/watch?v=${video.id.videoId}`);
-                            const downloadButton = document.getElementById('downloadButton');
-                            if (downloadButton) {
-                                downloadButton.click();
-                            }
-                        }}>
-                            {t('downloadAndConvert')}
-                        </button>
-
-                    </div>
-                ))}
-            </div>
+            <SearchResult videos={videos} setVideoUrl={setVideoUrl} />
             {isLoading && <div className={styles.loading}>{t('loading')}</div>}
+            <SettingPanel opened={settingData.open}
+                apiKey={apiKey} setApiKey={setApiKey} />
         </>
     )
 }
