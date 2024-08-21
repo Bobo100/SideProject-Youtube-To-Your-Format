@@ -1,5 +1,6 @@
 import { LinkListDetail } from "@/components/common/linkList";
 import Layout from "@/components/layout";
+import { getStaticProps } from '@/i18n/i18nExport';
 
 const Custom404 = () => {
     return (
@@ -14,3 +15,4 @@ const Custom404 = () => {
 
 
 export default Custom404;
+export { getStaticProps };
