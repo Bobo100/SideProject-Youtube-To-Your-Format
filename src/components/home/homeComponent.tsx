@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
 import styles from './homeComponent.module.scss';
-import { useTranslation } from 'react-i18next';
 import YoutubePanel from "./components/youtubePanel/youtubePanel";
 
 export default function HomeComponent() {
-    const { t } = useTranslation();
-    const [activePanel, setActivePanel] = useState(false);
     const [videoUrl, setVideoUrl] = useState('');
     useEffect(() => {
         // 動態加載 renderer.js 以確保這段代碼只在客戶端執行
         const script = document.createElement('script');
-        script.src = '/renderer.js';
+        script.src = '/renderer4YoutubePanel.js';
         script.async = true;
         document.body.appendChild(script);
 
@@ -24,10 +21,6 @@ export default function HomeComponent() {
     return (
         <div className={styles.container}>
             <YoutubePanel videoUrl={videoUrl} setVideoUrl={setVideoUrl} />
-            {/* <button onClick={() => setActivePanel(!activePanel)}
-                className={styles.button}
-            >{t('openDownloadPanel')}</button> */}
-            {/* <DownloadPanel videoUrl={videoUrl} setVideoUrl={setVideoUrl} activePanel={activePanel} setActivePanel={setActivePanel} /> */}
         </div >
     )
 }

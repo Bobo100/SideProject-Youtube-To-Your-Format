@@ -3,7 +3,7 @@ import serve from "electron-serve";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 // import { spawn } from "child_process";
-import log from "electron-log";
+import { Logs, logType } from "../utils/log.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -22,7 +22,8 @@ const createWindow = async (app) => {
   });
 
   if (app.isPackaged) {
-    log.info("Next.js: Starting server", serverPath);
+    // log.info("Next.js: Starting server", serverPath);
+    Logs("Next.js: Starting server", logType.info);
     appServe(win).then(() => {
       win.loadURL("app://-");
     });

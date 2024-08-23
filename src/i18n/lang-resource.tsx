@@ -8,7 +8,13 @@ const resources = {
             'LinkHomeDescription': 'Home',
             'Link404Title': '404',
             'Link404Description': '404',
+            'LinkConvertToolTitle': 'Convert Tool',
+            'LinkConvertToolDescription': 'Convert Tool',
 
+            'nowMode': 'Now Mode: ',
+            'searchMode': 'Search Mode',
+            'urlMode': 'URL Mode',
+            'switch': 'Click to switch to ',
             'youtubeUrlPlaceholder': 'Enter YouTube URL',
             'apiKeyTitle': 'Enter API Key',
             'selectForderButton': 'Select Output Folder',
@@ -39,6 +45,9 @@ const resources = {
             'openDownloadPanel': 'Open Download Panel',
 
             'setting': 'Setting',
+
+            'selectFileButton': 'Select File',
+            'convertButton': 'Convert',
         },
     },
     zh: {
@@ -48,7 +57,13 @@ const resources = {
             'LinkHomeDescription': '首頁',
             'Link404Title': '404',
             'Link404Description': '404',
+            'LinkConvertToolTitle': '轉換工具',
+            'LinkConvertToolDescription': '轉換工具',
 
+            'nowMode': '目前模式: ',
+            'searchMode': '搜尋模式',
+            'urlMode': '網址模式',
+            'switch': '點選切換成',
             'youtubeUrlPlaceholder': '輸入 YouTube 網址',
             'apiKeyTitle': '輸入 API 金鑰',
             'selectForderButton': '選擇輸出資料夾',
@@ -79,6 +94,9 @@ const resources = {
             'openDownloadPanel': '開啟下載面板',
 
             'setting': '設定',
+
+            'selectFileButton': '選擇檔案',
+            'convertButton': '轉換',
         },
     },
 };

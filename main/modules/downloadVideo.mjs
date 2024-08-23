@@ -2,15 +2,14 @@ import { ipcMain } from "electron";
 import path from "path";
 import fs from "fs";
 import { exec } from "child_process";
-import log from "electron-log";
-
+import { Logs, logType } from "../utils/log.mjs";
 export const setupDownloadHandler = (app) => {
   ipcMain.on(
     "download-video",
     async (event, youtubeUrl, outputPath, format) => {
-      log.info(`youtubeUrl: ${youtubeUrl}`);
-      log.info(`outputPath: ${outputPath}`);
-      log.info(`format: ${format}`);
+      Logs(`youtubeUrl: ${youtubeUrl}`, logType.info);
+      Logs(`outputPath: ${outputPath}`, logType.info);
+      Logs(`format: ${format}`, logType.info);
       try {
         if (!youtubeUrl) {
           // throw new Error("No URL provided");
@@ -22,7 +21,7 @@ export const setupDownloadHandler = (app) => {
         const resourcesPath = app.isPackaged
           ? path.join(process.resourcesPath)
           : path.join(app.getAppPath());
-        log.info(`resourcesPath: ${resourcesPath}`);
+        Logs(`resourcesPath: ${resourcesPath}`, logType.info);
 
         const ytDlpSourcePath = path.join(
           resourcesPath,
@@ -30,7 +29,7 @@ export const setupDownloadHandler = (app) => {
           "yt-dlp",
           "yt-dlp.exe"
         );
-        log.info(`ytDlpSourcePath: ${ytDlpSourcePath}`);
+        Logs(`ytDlpSourcePath: ${ytDlpSourcePath}`, logType.info);
 
         const ffmpegSourcePath = path.join(
           resourcesPath,
@@ -38,7 +37,7 @@ export const setupDownloadHandler = (app) => {
           "ffmpeg",
           "ffmpeg.exe"
         );
-        log.info(`ffmpegSourcePath: ${ffmpegSourcePath}`);
+        Logs(`ffmpegSourcePath: ${ffmpegSourcePath}`, logType.info);
 
         const defaultPath = path.join(
           app.getPath("downloads"),
@@ -80,13 +79,11 @@ export const setupDownloadHandler = (app) => {
             }
             event.reply("download-progress", progress);
           }
-          console.log(`stdout: ${data}`);
-          log.info(`stdout: ${data}`);
+          Logs(`stdout: ${data}`, logType.info);
         });
 
         execProcess.stderr.on("data", (data) => {
-          console.error(`stderr: ${data}`);
-          log.error(`stderr: ${data}`);
+          Logs(`stderr: ${data}`, logType.error);
         });
 
         execProcess.on("close", (code) => {
@@ -104,8 +101,7 @@ export const setupDownloadHandler = (app) => {
           }
         });
       } catch (error) {
-        console.error(`Error: ${error.message}`);
-        log.error(`Error: ${error.message}`);
+        Logs(`Error: ${error.message}`, logType.error);
         event.reply("download-response", `Error: ${error.message}`);
       }
     }

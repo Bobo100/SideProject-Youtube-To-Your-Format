@@ -23,6 +23,7 @@ const YoutubeComponent = ({ videoUrl, setVideoUrl }: YoutubeCommonProps) => {
 
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [visible, setVisible] = useState(true);
+    const [showSearch, setShowSearch] = useState(false);
     const settingData = useAppSelector(reduxSettingData);
 
     useEffect(() => {
@@ -60,18 +61,38 @@ const YoutubeComponent = ({ videoUrl, setVideoUrl }: YoutubeCommonProps) => {
     return (
         <>
             <div className={`${styles.fixedHeader} ${getThemeClassName('fixedHeader', styles, theme)} ${visible ? `${styles.fixedHeader_Visible}` : ''}`}>
-                <Search videoUrl={videoUrl} setVideoUrl={setVideoUrl} query={query} setQuery={setQuery} />
+                <div className="flex mb-[10px]">
+                    <h1 className={styles.title}>
+                        {t('nowMode')} {showSearch ? t('searchMode') : t('urlMode')}
+                    </h1>
+                    <button className={styles.switchButton}
+                        onClick={() => setShowSearch(!showSearch)}
+                    >
+                        {t('switch')} {showSearch ? t('urlMode') : t('searchMode')}
+                    </button>
+                </div>
+                <Search
+                    videoUrl={videoUrl}
+                    setVideoUrl={setVideoUrl}
+                    query={query}
+                    setQuery={setQuery}
+                    showSearch={showSearch}
+                    setShowSearch={setShowSearch}
+                />
                 <SelectFolder />
-                <button onClick={() => handleSearchLogic({ firstTime: true })}
+                {showSearch && <button onClick={() => handleSearchLogic({ firstTime: true })}
                     className={styles.searchButton}
                 >{t('search')}</button>
+                }
+                <button id="downloadButton"
+                    className={styles.downloadButton}
+                    hidden={showSearch}>
+                    {t('downloadAndConvert')}
+                </button>
                 <ProgressBar />
                 <p id="status"></p>
             </div>
-            <button id="downloadButton"
-                hidden>
-                {t('downloadAndConvert')}
-            </button>
+
             <SearchResult videos={videos} setVideoUrl={setVideoUrl} />
             {isLoading && <div className={styles.loading}>{t('loading')}</div>}
             <SettingPanel opened={settingData.open}

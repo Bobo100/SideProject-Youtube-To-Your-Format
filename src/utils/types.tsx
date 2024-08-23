@@ -45,6 +45,8 @@ interface YoutubeCommonProps {
 interface SearchProps extends YoutubeCommonProps {
     query: string;
     setQuery: Dispatch<SetStateAction<string>>;
+    showSearch: boolean;
+    setShowSearch: Dispatch<SetStateAction<boolean>>;
 }
 
 interface ApiKeyInputProps {

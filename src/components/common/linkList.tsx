@@ -10,7 +10,13 @@ export const LinkListDetail = {
         title: 'Link404Title',
         description: 'Link404Description',
         className: '/404'
-    }
+    },
+    "convertTool": {
+        href: '/convertTool',
+        title: 'LinkConvertToolTitle',
+        description: 'LinkConvertToolDescription',
+        className: '/convertTool'
+    },
 }
 
 
@@ -20,5 +26,11 @@ export const LinkList = [
         name: LinkListDetail["/"].title,
         className: LinkListDetail["/"].className,
         description: LinkListDetail["/"].description
+    },
+    {
+        href: LinkListDetail["convertTool"].href,
+        name: LinkListDetail["convertTool"].title,
+        className: LinkListDetail["convertTool"].className,
+        description: LinkListDetail["convertTool"].description
     },
 ]

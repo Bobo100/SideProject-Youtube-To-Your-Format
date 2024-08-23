@@ -3,6 +3,10 @@ import { createWindow } from "./modules/createWindow.mjs";
 import { setupDialogHandlers } from "./modules/handleDialogs.mjs";
 import { setupDownloadHandler } from "./modules/downloadVideo.mjs";
 import { startExpressServer } from "./modules/startExpressServer.mjs";
+import {
+  setUpSelectFileHandler,
+  setupConvertHandler,
+} from "./modules/convertVideo.mjs";
 
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
@@ -15,6 +19,10 @@ app.whenReady().then(async () => {
   createWindow(app);
   setupDialogHandlers();
   setupDownloadHandler(app);
+
+  // 
+  setUpSelectFileHandler();
+  setupConvertHandler(app);
 });
 
 app.on("window-all-closed", () => {

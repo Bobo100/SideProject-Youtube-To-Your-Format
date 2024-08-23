@@ -44,7 +44,8 @@ const SettingPanel = ({ opened, apiKey, setApiKey }: SettingPanelProps) => {
         <div className={`${styles.container} ${getStyles()}`} onClick={handleModalClose}>
             <div className={styles.modal}
                 onClick={(e) => e.stopPropagation()}>
-                <h1>{t('setting')}</h1>
+                <h1 className={styles.title}
+                 >{t('setting')}</h1>
                 <ApiKeyInput apiKey={apiKey} setApiKey={setApiKey} />
             </div>
         </div>

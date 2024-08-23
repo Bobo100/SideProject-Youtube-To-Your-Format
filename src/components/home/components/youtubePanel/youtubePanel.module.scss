@@ -47,7 +47,22 @@
     }
 }
 
-.searchButton {
+.title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-right: 10px;
+}
+
+.switchButton {
+    background-color: #0073e6;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.searchButton,
+.downloadButton {
     width: 100%;
     height: 40px;
     background-color: #0073e6;
