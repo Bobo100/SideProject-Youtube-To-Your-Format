@@ -1,10 +1,31 @@
 .container {
     position: relative;
     min-height: 100vh;
+    margin: 20px;
 
     & > * {
         margin-bottom: 10px;
     }
+}
+
+.selectContainer {
+    display: flex;
+    align-items: center;
+}
+
+.selectFileButton {
+    width: -moz-fit-content;
+    width: fit-content;
+    height: 40px;
+    background-color: #0073e6;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+    padding: 10px;
+    white-space: nowrap;
 }
 
 .convertButton {

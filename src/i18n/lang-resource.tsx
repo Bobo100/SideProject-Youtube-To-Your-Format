@@ -48,6 +48,7 @@ const resources = {
 
             'selectFileButton': 'Select File',
             'convertButton': 'Convert',
+            'formatSelect': 'Select Format',
         },
     },
     zh: {
@@ -97,6 +98,7 @@ const resources = {
 
             'selectFileButton': '選擇檔案',
             'convertButton': '轉換',
+            'formatSelect': '選擇格式',
         },
     },
 };

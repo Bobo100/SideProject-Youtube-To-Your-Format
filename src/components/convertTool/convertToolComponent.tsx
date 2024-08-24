@@ -21,7 +21,10 @@ export default function ConvertToolComponent() {
 
     return (
         <div className={styles.container}>
-            <button id="selectFileButton" className={styles.selectFileButton}> {t('selectFileButton')} </button>
+            <div className={styles.selectContainer}>
+                <button id="selectFileButton" className={styles.selectFileButton}> {t('selectFileButton')} </button>
+                <p id="selectFilePath" />
+            </div>
             <FormatSelector />
             <button id="convertButton" className={styles.convertButton}>
                 {t('convertButton')}

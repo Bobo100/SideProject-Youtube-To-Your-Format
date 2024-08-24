@@ -1,13 +1,29 @@
 function setupEventListeners() {
-  let filePath = null; // 用于存储 filePath 的外部变量
+  let filePath = null; // 用於存儲選擇的文件路徑
+  let isSelectingFile = false; // 用於標記是否正在選擇文件
 
   const selectFileButton = document.getElementById("selectFileButton");
+  const selectFilePath = document.getElementById("selectFilePath");
   const convertButton = document.getElementById("convertButton");
 
   if (selectFileButton) {
     selectFileButton.addEventListener("click", async () => {
-      filePath = await window.electron.invoke("select-file"); // 选择文件后更新 filePath
-      console.log("filePath: ", filePath);
+      if (isSelectingFile) {
+        return; // 如果正在選擇文件，則不執行任何操作
+      }
+
+      isSelectingFile = true; // 正在選擇文件
+      selectFileButton.disabled = true; // 禁用按鈕
+
+      try {
+        filePath = await window.electron.invoke("select-file"); // 調用主進程的 select-file 方法
+        if (selectFilePath) {
+          selectFilePath.innerText = filePath;
+        }
+      } finally {
+        isSelectingFile = false; // 選擇文件結束
+        selectFileButton.disabled = false; // 啟用按鈕
+      }
     });
   }
 
