@@ -17,7 +17,7 @@ i18n
         fallbackLng: 'zh',    // 若找不到對應語系則回傳 en
         defaultNS: 'common',
         preload: ['en', 'zh'],
-        ns: 'common',
+        ns: ['common'],
         interpolation: {
             escapeValue: false,
         },
@@ -25,7 +25,7 @@ i18n
             return '';
         },
         react: {
-            useSuspense: false
+            useSuspense: true
         },
     });
 

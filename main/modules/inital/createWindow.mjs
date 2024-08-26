@@ -7,7 +7,7 @@ import { Logs, logType } from "../../utils/log.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const serverPath = path.join(__dirname, "..", "..", "..", "out");
+const serverPath = path.join(__dirname, "..", "..", "..", "..", "out");
 const appServe = serve({
   directory: serverPath,
 });
@@ -17,7 +17,7 @@ const createWindow = async (app) => {
     width: 960,
     height: 480,
     webPreferences: {
-      preload: path.join(__dirname, "..", "preload.js"),
+      preload: path.join(__dirname, "..", "..", "preload.js"),
     },
   });
 
