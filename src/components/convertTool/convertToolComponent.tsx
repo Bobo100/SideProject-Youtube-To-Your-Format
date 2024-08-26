@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import styles from './convertToolComponent.module.scss';
 import { useTranslation } from 'react-i18next';
 import FormatSelector from './component/formatSelector/formatSelector';
+import ProgressBar from '../common/progressBar/progressBar';
 
 export default function ConvertToolComponent() {
     const { t } = useTranslation();
@@ -29,6 +30,7 @@ export default function ConvertToolComponent() {
             <button id="convertButton" className={styles.convertButton}>
                 {t('convertButton')}
             </button>
+            <ProgressBar id='convert-progress' type='convert' />
         </div >
     )
 }

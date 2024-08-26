@@ -7,9 +7,8 @@ import { getThemeClassName } from "@/utils/commonFunction";
 import { useTheme } from "next-themes";
 import useWindowWidth from "@/hooks/useWindowWidth";
 import SelectFolder from "../selectFolder/selectFolder";
-import ApiKeyInput from "../apiKeyInput/apiKeyInput";
 import SearchResult from "../searchResult/searchResult";
-import ProgressBar from "../progressBar/progressBar";
+import ProgressBar from "@/components/common/progressBar/progressBar";
 import Search from "../search/search";
 import SettingPanel from "../settingPanel/settingPanel";
 import { useAppSelector } from "@/redux/hook/hook";
@@ -89,7 +88,7 @@ const YoutubeComponent = ({ videoUrl, setVideoUrl }: YoutubeCommonProps) => {
                     hidden={showSearch}>
                     {t('downloadAndConvert')}
                 </button>
-                <ProgressBar />
+                <ProgressBar id='download-progress' type='download' />
                 <p id="status"></p>
             </div>
 

@@ -49,6 +49,15 @@ function setupEventListeners() {
 
 setupEventListeners();
 
-window.electron.on("convert-response", (event, message) => {
+window.electron.on("convert-response", (message) => {
   console.log(message); //
+});
+
+window.electron.on("convert-progress", (progress) => {
+  const progressBar = document.getElementById("convert-progress");
+  console.log('convert-progress', progress);
+  if (progressBar) {
+    progressBar.style.width = `${progress}%`;
+    progressBar.textContent = `${progress}%`;
+  }
 });

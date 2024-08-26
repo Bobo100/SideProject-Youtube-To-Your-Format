@@ -14,7 +14,7 @@ const downloadPage = {
     'outputPathPlaceholder': '輸出路徑',
 
     'downloadAndConvert': '下載並轉換',
-    'progressBar': '下載進度',
+    'downloadProgress': '下載進度',
 
     'loading': '載入中...',
 

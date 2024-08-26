@@ -14,7 +14,7 @@ const downloadPage = {
     'outputPathPlaceholder': 'Output Path',
 
     'downloadAndConvert': 'Download and Convert',
-    'progressBar': 'Download Progress',
+    'downloadProgress': 'Download Progress',
 
     'loading': 'Loading...',
 

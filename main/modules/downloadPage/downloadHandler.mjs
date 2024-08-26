@@ -78,8 +78,8 @@ export const setupDownloadHandler = (app) => {
               progress = 99;
             }
             event.reply("download-progress", progress);
+            Logs(`stdout: ${data}`, logType.info);
           }
-          Logs(`stdout: ${data}`, logType.info);
         });
 
         execProcess.stderr.on("data", (data) => {

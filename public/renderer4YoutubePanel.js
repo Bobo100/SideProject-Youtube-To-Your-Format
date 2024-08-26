@@ -31,7 +31,7 @@ window.electron.on("download-response", (message) => {
 });
 
 window.electron.on("download-progress", (progress) => {
-  const progressBar = document.getElementById("progress-bar");
+  const progressBar = document.getElementById("download-progress");
   if (progressBar) {
     progressBar.style.width = `${progress}%`;
     progressBar.textContent = `${progress}%`;
