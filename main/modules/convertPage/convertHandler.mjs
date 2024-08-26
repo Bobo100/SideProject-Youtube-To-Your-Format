@@ -1,21 +1,7 @@
 import { ipcMain, dialog } from "electron";
 import path from "path";
 import { exec } from "child_process";
-import { Logs, logType } from "../utils/log.mjs";
-
-export const setUpSelectFileHandler = () => {
-  ipcMain.handle("select-file", async () => {
-    const { canceled, filePaths } = await dialog.showOpenDialog({
-      properties: ["openFile"],
-    });
-
-    if (canceled) {
-      return null;
-    } else {
-      return filePaths[0]; // 返回選擇的文件路徑
-    }
-  });
-};
+import { Logs, logType } from "../../utils/log.mjs";
 
 export const setupConvertHandler = (app) => {
   ipcMain.on("convert-video", async (event, inputFilePath, outputFormat) => {

@@ -1,12 +1,10 @@
 import { app, protocol } from "electron";
-import { createWindow } from "./modules/createWindow.mjs";
-import { setupDialogHandlers } from "./modules/handleDialogs.mjs";
-import { setupDownloadHandler } from "./modules/downloadVideo.mjs";
-import { startExpressServer } from "./modules/startExpressServer.mjs";
-import {
-  setUpSelectFileHandler,
-  setupConvertHandler,
-} from "./modules/convertVideo.mjs";
+import { createWindow } from "./modules/inital/createWindow.mjs";
+import { startExpressServer } from "./modules/inital/startExpressServer.mjs";
+import { setupDialogHandler } from "./modules/downloadPage/dialogHandler.mjs";
+import { setupDownloadHandler } from "./modules/downloadPage/downloadHandler.mjs";
+import { setUpSelectFileHandler } from "./modules/convertPage/selectFileHandler.mjs";
+import { setupConvertHandler } from "./modules/convertPage/convertHandler.mjs";
 
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
@@ -17,10 +15,12 @@ let serverProcess;
 app.whenReady().then(async () => {
   startExpressServer();
   createWindow(app);
-  setupDialogHandlers();
+
+  // download page
+  setupDialogHandler();
   setupDownloadHandler(app);
 
-  // 
+  // convert page
   setUpSelectFileHandler();
   setupConvertHandler(app);
 });

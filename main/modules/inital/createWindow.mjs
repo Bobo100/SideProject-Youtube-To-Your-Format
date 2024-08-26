@@ -3,7 +3,7 @@ import serve from "electron-serve";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 // import { spawn } from "child_process";
-import { Logs, logType } from "../utils/log.mjs";
+import { Logs, logType } from "../../utils/log.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

@@ -1,6 +1,6 @@
 import { dialog, ipcMain } from 'electron';
 
-export const setupDialogHandlers = () => {
+export const setupDialogHandler = () => {
   ipcMain.handle('select-output-folder', async () => {
     const result = await dialog.showOpenDialog({
       properties: ['openDirectory'],

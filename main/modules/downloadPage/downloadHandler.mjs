@@ -2,7 +2,7 @@ import { ipcMain } from "electron";
 import path from "path";
 import fs from "fs";
 import { exec } from "child_process";
-import { Logs, logType } from "../utils/log.mjs";
+import { Logs, logType } from "../../utils/log.mjs";
 export const setupDownloadHandler = (app) => {
   ipcMain.on(
     "download-video",
