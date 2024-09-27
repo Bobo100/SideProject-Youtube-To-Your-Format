@@ -5,6 +5,7 @@ const downloadPage = {
     'urlMode': 'URL Mode',
     'youtubeUrlPlaceholder': 'Enter YouTube URL',
     'urlError': 'Please enter a valid YouTube URL',
+    'downloadInProgress': 'Downloading...',
 
     'searchVideo': 'Enter keywords',
     'searchVideo2': 'Search for videos, enter keywords',

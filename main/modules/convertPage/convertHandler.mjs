@@ -2,6 +2,7 @@ import { ipcMain, dialog } from "electron";
 import path from "path";
 import { exec } from "child_process";
 import { Logs, logType } from "../../utils/log.mjs";
+import { generateUniqueFileName } from "../../utils/file.mjs";
 
 export const setupConvertHandler = (app) => {
   ipcMain.on("convert-video", async (event, inputFilePath, outputFormat) => {
@@ -97,13 +98,19 @@ const convertVideo = (
       inputFilePath,
       path.extname(inputFilePath)
     );
-    const outputFilePath = path.join(
+    const outputFilePath = generateUniqueFileName(
       outputPath,
-      `${inputFileName}.${outputFormat}`
+      inputFileName,
+      `.${outputFormat}`
     );
     Logs(`Output file path: ${outputFilePath}`, logType.info);
 
-    const command = `"${ffmpegPath}" -i "${inputFilePath}" "${outputFilePath}"`;
+    let command;
+    if (outputFormat === "mp4") {
+      command = `"${ffmpegPath}" -i "${inputFilePath}" -c:v libx264 -c:a aac "${outputFilePath}"`;
+    } else {
+      command = `"${ffmpegPath}" -i "${inputFilePath}" "${outputFilePath}"`;
+    }
 
     Logs(`Executing command: ${command}`, logType.info);
 

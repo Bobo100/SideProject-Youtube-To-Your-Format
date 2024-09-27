@@ -3,10 +3,17 @@ import path from "path";
 import fs from "fs";
 import { exec } from "child_process";
 import { Logs, logType } from "../../utils/log.mjs";
+import { getVideoTitle, generateUniqueFileName } from "../../utils/file.mjs";
+let isDownloading = false;
 export const setupDownloadHandler = (app) => {
   ipcMain.on(
     "download-video",
-    async (event, youtubeUrl, outputPath, format) => {
+    async (event, youtubeUrl, outputPath, format, customFileName) => {
+      if (isDownloading) {
+        event.reply("download-response", "downloadInProgress");
+        return;
+      }
+      isDownloading = true;
       Logs(`youtubeUrl: ${youtubeUrl}`, logType.info);
       Logs(`outputPath: ${outputPath}`, logType.info);
       Logs(`format: ${format}`, logType.info);
@@ -49,19 +56,33 @@ export const setupDownloadHandler = (app) => {
           fs.mkdirSync(outputPath, { recursive: true });
         }
 
+        let fileName;
+        if (customFileName) {
+          fileName = customFileName;
+        } else {
+          fileName = await getVideoTitle(ytDlpSourcePath, youtubeUrl);
+        }
+
+        let ext = format === "mp4" ? ".mp4" : ".mp3";
+        const uniqueFilePath = generateUniqueFileName(
+          outputPath,
+          fileName,
+          ext
+        );
+        Logs(`uniqueFilePath: ${uniqueFilePath}`, logType.info);
+        // 檢查是否檔案存在
+        if (fs.existsSync(uniqueFilePath)) {
+          event.reply("download-response", "fileExists");
+          return;
+        }
+
         let command;
         if (format === "mp4") {
-          command = `"${ytDlpSourcePath}" --ffmpeg-location "${ffmpegSourcePath}" --output "${path.join(
-            outputPath,
-            "%(title)s.%(ext)s"
-          )}" -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4" --merge-output-format mp4 "${youtubeUrl}"`;
+          // command = `"${ytDlpSourcePath}" --ffmpeg-location "${ffmpegSourcePath}" --output "${uniqueFilePath}" -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4" --merge-output-format mp4 "${youtubeUrl}"`;
+          command = `"${ytDlpSourcePath}" --ffmpeg-location "${ffmpegSourcePath}" --output "${uniqueFilePath}" -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4" --merge-output-format mp4 --recode-video mp4 --postprocessor-args "-c:v libx264 -c:a aac" "${youtubeUrl}"`;
         } else if (format === "mp3") {
-          command = `"${ytDlpSourcePath}" --ffmpeg-location "${ffmpegSourcePath}" --output "${path.join(
-            outputPath,
-            "%(title)s.%(ext)s"
-          )}" -f "bestaudio[ext=m4a]/bestaudio" --extract-audio --audio-format mp3 "${youtubeUrl}"`;
+          command = `"${ytDlpSourcePath}" --ffmpeg-location "${ffmpegSourcePath}" --output "${uniqueFilePath}" -f "bestaudio[ext=m4a]/bestaudio" --extract-audio --audio-format mp3 "${youtubeUrl}"`;
         } else {
-          // throw new Error("Unsupported format");
           event.reply("download-response", "formatError");
           return;
         }
@@ -87,6 +108,7 @@ export const setupDownloadHandler = (app) => {
         });
 
         execProcess.on("close", (code) => {
+          isDownloading = false;
           if (code === 0) {
             event.reply("download-progress", 100);
             event.reply(
@@ -101,6 +123,7 @@ export const setupDownloadHandler = (app) => {
           }
         });
       } catch (error) {
+        isDownloading = false;
         Logs(`Error: ${error.message}`, logType.error);
         event.reply("download-response", `Error: ${error.message}`);
       }

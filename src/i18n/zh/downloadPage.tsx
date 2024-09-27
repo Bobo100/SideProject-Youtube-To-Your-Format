@@ -5,6 +5,7 @@ const downloadPage = {
     'urlMode': '網址模式',
     'youtubeUrlPlaceholder': '輸入 YouTube 網址',
     'urlError': '請輸入有效的 YouTube 網址',
+    'downloadInProgress': '下載中...',
 
     'searchVideo': '輸入關鍵字',
     'searchVideo2': '搜尋影片，輸入關鍵字',
